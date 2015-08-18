@@ -1,5 +1,8 @@
 package BotsGame;
 
+import static botsgame.Constants.*;
+import botsgame.bots.*;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.AppGameContainer;
@@ -10,35 +13,84 @@ import org.newdawn.slick.SlickException;
 
 public class BotsGame extends BasicGame
 {
-	public BotsGame(String gamename)
+    private boolean running;
+
+    public int optionArmySize = 1; //кол-во ботов в команде	
+
+    public Bot[] armyBlue = new Bot[optionArmySize];
+    public Bot[] armyRed = new Bot[optionArmySize];
+
+    public Landscape land = new Landscape(WORLD_SIZE,WORLD_SIZE);
+
+    public int respawnBlueX=1,respawnBlueY=1; //позиция для респа синих
+    public int respawnRedX=WORLD_SIZE-2,respawnRedY=WORLD_SIZE-2; //позиция для респа красных
+
+        public BotsGame(String gamename)
 	{
-		super(gamename);
+            super(gamename);
 	}
 
 	@Override
-	public void init(GameContainer gc) throws SlickException {}
-
+	public void init(GameContainer gc) throws SlickException {
+            landscapeInit();
+            Bot.terrain = land;                    
+            for (int i=0; i<optionArmySize; i++)
+            {
+                armyBlue[i] = new BlueBot();
+                armyBlue[i].spawn(i);
+                armyRed[i] = new RedBot();
+                armyRed[i].spawn(i);
+            }
+}
+        private void landscapeInit(){
+            Random random = new Random();
+            for(int y=0; y<WORLD_SIZE; y++)
+            {
+                for(int x=0; x<WORLD_SIZE; x++)
+                {
+                    int r=random.nextInt(5)+1;
+                    land.setSurface(x, y, r);
+                }
+            }
+        }
+        
 	@Override
-	public void update(GameContainer gc, int i) throws SlickException {}
+	public void update(GameContainer gc, int i) throws SlickException {
+            for(int j=0; j<optionArmySize; j++)
+            {
+                armyBlue[j].doAction(armyRed, j);
+                armyRed[j].doAction(armyBlue, j);
+            }
+}
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
-		g.drawString("Howdy!", 10, 10);
+            for(int i=0; i<optionArmySize; i++)
+            {
+                drawBot(g, armyBlue[i]);
+                drawBot(g,armyRed[i]);
+            }
 	}
 
-	public static void main(String[] args)
+        private void drawBot(Graphics g, Bot bot)
+        {
+            g.drawAnimation(bot.body.image, (float) bot.posX*CELL_SIZE, (float) bot.posY*CELL_SIZE);
+        }
+
+        public static void main(String[] args)
 	{
-		try
-		{
-			AppGameContainer appgc;
-			appgc = new AppGameContainer(new BotsGame("Bots"));
-			appgc.setDisplayMode(640, 480, false);
-			appgc.start();
-		}
-		catch (SlickException ex)
-		{
-			Logger.getLogger(BotsGame.class.getName()).log(Level.SEVERE, null, ex);
-		}
+            try
+            {
+                AppGameContainer appgc;
+                appgc = new AppGameContainer(new BotsGame("Bots"));
+                appgc.setDisplayMode(1920, 1080, true);
+                appgc.setVSync(true); //включаем вертикальную синхронизацию
+                appgc.start();
+            }
+            catch (SlickException ex)
+            {
+                Logger.getLogger(BotsGame.class.getName()).log(Level.SEVERE, null, ex);
+            }
 	}
 }
