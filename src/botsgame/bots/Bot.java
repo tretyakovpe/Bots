@@ -72,7 +72,7 @@ public abstract class Bot extends Obstacles{
     }
 
 
-    public void doAction(Bot[] army, int botIndex)
+    public void doAction(Bot[] army, int botIndex) throws SlickException
     {
         selfTest();
         switch (botMode)
@@ -98,13 +98,13 @@ public abstract class Bot extends Obstacles{
         }
     }
     
-    public void spawn(int index)
+    public void spawn(int index) throws SlickException
     {
         int x = random.nextInt(WORLD_SIZE);
         int y = random.nextInt(WORLD_SIZE);
         
         init(String.valueOf(index), 0, x, y);
-//        setEquipment(random.nextInt(3), random.nextInt(3), random.nextInt(3));
+        setEquipment(0);
 //        this.health=body.durability+power.durability;
     }
 
@@ -271,7 +271,7 @@ public abstract class Bot extends Obstacles{
         }
     }
     
-    public void setEquipment(int bodyId, int weaponId, int powerId) throws SlickException
+    public void setEquipment(int bodyId) throws SlickException
     {
         switch (bodyId)
         {
@@ -285,7 +285,7 @@ public abstract class Bot extends Obstacles{
                 body.antigrav();
                 break;
         }
-
+/*
         switch (weaponId)
         {
             case 0:
@@ -309,7 +309,7 @@ public abstract class Bot extends Obstacles{
             case 2:
                 power.tousandChinese();
                 break;
-        }
+        }*/
     }
 
     /**

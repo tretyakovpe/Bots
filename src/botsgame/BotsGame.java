@@ -84,7 +84,7 @@ public class BotsGame extends BasicGame
             {
                 AppGameContainer appgc;
                 appgc = new AppGameContainer(new BotsGame("Bots"));
-                appgc.setDisplayMode(1920, 1080, true);
+                appgc.setDisplayMode(1024, 768, false);
                 appgc.setVSync(true); //включаем вертикальную синхронизацию
                 appgc.start();
             }
