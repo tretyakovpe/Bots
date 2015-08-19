@@ -12,7 +12,7 @@ import org.newdawn.slick.SlickException;
 
 public class BotsGame extends BasicGame
 {
-    public int optionArmySize = 1; //кол-во ботов в команде	
+    public int optionArmySize = 2; //кол-во ботов в команде	
 
     public Bot[] armyBlue = new Bot[optionArmySize];
     public Bot[] armyRed = new Bot[optionArmySize];
@@ -55,7 +55,7 @@ public class BotsGame extends BasicGame
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
-            land.render(g);
+            land.render(0,0);
             for(int i=0; i<optionArmySize; i++)
             {
                 drawBot(g, armyBlue[i]);

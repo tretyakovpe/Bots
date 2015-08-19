@@ -70,7 +70,6 @@ public abstract class Bot extends Obstacles{
         this.team = team;
         this.posX = X;
         this.posY = Y;
-        this.flagColor = color;
         this.botMode = 1;
         this.target = null;
         this.targetDistance = 99999;
