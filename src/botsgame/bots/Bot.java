@@ -6,6 +6,7 @@ import botsgame.equipment.Weapon;
 import botsgame.equipment.Body;
 import botsgame.equipment.Equipment;
 import static botsgame.Constants.*;
+import botsgame.Landscape;
 import java.awt.Color;
 import java.util.Random;
 import org.newdawn.slick.SlickException;
