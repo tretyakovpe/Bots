@@ -1,4 +1,4 @@
-package BotsGame;
+package botsgame;
 
 import static botsgame.Constants.*;
 import botsgame.bots.*;
@@ -39,7 +39,7 @@ public class BotsGame extends BasicGame
             }
 }
         private void landscapeInit() throws SlickException{
-            land = new Landscape(WORLD_SIZE, WORLD_SIZE);
+            land = new Landscape(WORLD_SIZE, WORLD_SIZE,"/assets/maps/map1.tmx");
             Bot.terrain=land;
         }
         
