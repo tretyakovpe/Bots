@@ -9,6 +9,10 @@ import static botsgame.Constants.*;
 import java.awt.Color;
 import java.util.Random;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.tiled.TiledMap;
+import org.newdawn.slick.util.pathfinding.AStarPathFinder;
+import org.newdawn.slick.util.pathfinding.Path;
+import org.newdawn.slick.util.pathfinding.TileBasedMap;
 
 
 /**
@@ -93,7 +97,6 @@ public abstract class Bot extends Obstacles{
                 shoot();
                 break;
             case 5: 
-                escape();
                 break;
         }
     }
@@ -158,6 +161,19 @@ public abstract class Bot extends Obstacles{
     }
     
     public void move(){
+        
+        AStarPathFinder pathFinder = new AStarPathFinder((TileBasedMap) terrain, 10, false);
+        Path path = pathFinder.findPath(null, posX, posY, target.posX, target.posY);
+
+        int length = path.getLength();
+        System.out.println("Found path of length: " + length + ".");
+
+        for(int i = 0; i < length; i++) {
+            System.out.println("Move to: " + path.getX(i) + "," + path.getY(i) + ".");
+        }
+        
+        
+        
         int surface = terrain.getSurface(this.posX, this.posY);
         float step = (float)this.targetDistance/(float)this.body.speed;
         float vectorX=(this.target.posX-this.posX);
@@ -171,21 +187,8 @@ public abstract class Bot extends Obstacles{
         newX = newX>WORLD_SIZE?WORLD_SIZE:newX;
         newY = newY>WORLD_SIZE?WORLD_SIZE:newY;
         
-        obstacle = terrain.getObstacle(Math.round(newX), Math.round(newY));
-        if(obstacle==null)
-        {
-            terrain.setObstacle(posX, posY, null);
-            this.posX=Math.round(newX);
-            this.posY=Math.round(newY);
-            terrain.setObstacle(posX, posY, this);
-//            System.out.println(this.name+" делает шаг в "+Math.round(newX)+"-"+Math.round(newY));
-        }
-        else 
-        {
-            searchObstacle(Math.round(newX), Math.round(newY));
-        }
-        
-        
+        this.posX=Math.round(newX);
+        this.posY=Math.round(newY);
         
         this.targetDistance=99999;
         //посмотрим, может есть кто-нть поближе
@@ -203,18 +206,6 @@ public abstract class Bot extends Obstacles{
         this.targetDistance=99999;
         this.botMode=1;
 
-    }
-    
-    public void escape(){
-        //Panic-mode, срочно спасаться возле башни.
-        this.setTarget(tower);
-        
-        //если возле башни, посмотрим вокруг.
-        this.botMode=1;
-    }
-    
-    public void lookForSpareParts(){
-        
     }
     
     public void die(){
@@ -235,39 +226,6 @@ public abstract class Bot extends Obstacles{
                 break;
             default:
                 remains=null;
-        }
-        terrain.setObstacle(posX, posY, remains);
-    }
-    
-    public void setTarget(Obstacles object){
-        this.target=object;
-    }
-    
-    public void setTower(Tower tower){
-        this.tower=tower;
-    }
-    
-    public void searchObstacle(int x, int y){
-        obstacle = terrain.getObstacle(x, y);
-        if (obstacle instanceof botsgame.bots.BotRemains)
-        {
-            BotRemains remains = (BotRemains) obstacle;
-            Equipment part = remains.getPart();
-            this.health+=part.durability;
-            if(part instanceof Body)
-            {
-                this.body = (Body) part;
-                this.body.image = part.image;
-            }
-            
-            if(part instanceof Power)
-            {
-                this.power = (Power) part;
-                this.power.image = part.image;
-            }
-            
-            System.out.println(this.name+" подобрал "+part.name+" добавил "+part.durability+" здоровья");
-            terrain.setObstacle(x, y, null);
         }
     }
     
