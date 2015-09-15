@@ -16,6 +16,8 @@ public abstract class Obstacles {
     
     public int posX;
     public int posY;
+    public int oldPosX;
+    public int oldPosY;
     public int health;
     
     public void doDamage(int damage)

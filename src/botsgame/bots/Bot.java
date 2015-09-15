@@ -4,14 +4,14 @@ import botsgame.equipment.Comp;
 import botsgame.equipment.Power;
 import botsgame.equipment.Weapon;
 import botsgame.equipment.Body;
-import botsgame.equipment.Equipment;
-import static botsgame.Constants.*;
 import botsgame.Landscape;
-import java.awt.Color;
+import java.util.List;
+
 import java.util.Random;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.tiled.TiledMap;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
+import org.newdawn.slick.util.pathfinding.Mover;
 import org.newdawn.slick.util.pathfinding.Path;
 import org.newdawn.slick.util.pathfinding.TileBasedMap;
 
@@ -20,12 +20,13 @@ import org.newdawn.slick.util.pathfinding.TileBasedMap;
  *
  * @author pavel.tretyakov
  */
-public abstract class Bot extends Obstacles{
+public class Bot extends Obstacles{
 
     public static Landscape terrain;
+    protected AStarPathFinder pathFinder = new AStarPathFinder((TileBasedMap) terrain, 60, false);
+    public Path path;
 
     public String name;
-    public int team;
     public Color flagColor;
 
     public Body body = new Body();
@@ -33,16 +34,13 @@ public abstract class Bot extends Obstacles{
     public Power power = new Power();
     public Comp comp = new Comp();
 
-    private Tower tower;
-    private Obstacles obstacle;
-    
     public Obstacles target;
     public int targetDistance;
     
-    private Random random;
+    private final Random random;
     
-    protected int respawnX = 1;
-    protected int respawnY = 1;
+    protected int respawnX;
+    protected int respawnY;
 
     
     /**
@@ -57,32 +55,35 @@ public abstract class Bot extends Obstacles{
      */
     public int botMode;
 
-    public Bot()
+    public Bot(String name, Color color) throws SlickException
     {
         random=new Random();
-    }
-    
-    public abstract void init(String name, int team, int X, int Y);
-
-    public void init(String name, int team, int X, int Y, Color color)
-    {
+        int x = 0;//random.nextInt(3);
+        int y = 0;//random.nextInt(3);
+        while (terrain.blocked(pathFinder, x, y)==true)
+        {
+            x = random.nextInt(20)+respawnX;
+            y = random.nextInt(20)+respawnY; 
+        }
         this.name = name;
-        this.team = team;
-        this.posX = X;
-        this.posY = Y;
+        this.posX = x;
+        this.posY = y;
+        this.oldPosX = x;
+        this.oldPosY = y;
+        this.flagColor=color;
         this.botMode = 1;
         this.target = null;
         this.targetDistance = 99999;
+        setEquipment(random.nextInt(3),random.nextInt(3),random.nextInt(2));
     }
-
-
-    public void doAction(Bot[] army, int botIndex) throws SlickException
+    
+    public void doAction(List<Bot> army) throws SlickException
     {
         selfTest();
         switch (botMode)
         {
             case 0: 
-                spawn(botIndex);
+                die();
                 break;
             case 1: 
                 see(army);
@@ -101,14 +102,20 @@ public abstract class Bot extends Obstacles{
         }
     }
     
-    public void spawn(int index) throws SlickException
+    public void spawn() throws SlickException
     {
-        int x = random.nextInt(WORLD_SIZE);
-        int y = random.nextInt(WORLD_SIZE);
-        
-        init(String.valueOf(index), 0, x, y);
-        setEquipment(0);
-//        this.health=body.durability+power.durability;
+        int x = 0;//random.nextInt(3);
+        int y = 0;//random.nextInt(3);
+        while (terrain.blocked(pathFinder, x, y)==true)
+        {
+            x = random.nextInt(3)+respawnX;
+            y = random.nextInt(3)+respawnY; 
+        }
+        setEquipment(random.nextInt(3),random.nextInt(3),random.nextInt(2));
+
+//        terrain.setObstacle(x, y);
+
+        super.health=body.durability+power.durability;
     }
 
     public void selfTest(){
@@ -123,7 +130,7 @@ public abstract class Bot extends Obstacles{
         }
     }
 
-    public void see(Bot[] enemies){
+    public void see(List<Bot> enemies){
         
         for (Bot enemyBot:enemies)
         {
@@ -133,14 +140,17 @@ public abstract class Bot extends Obstacles{
             int Y = this.posY;
 //            System.out.println(this.name+" видит "+enemyBot.name);
             //Вычисляем дистанцию до бота, если она меньше предыдущей, выбираем его в качестве цели.
-            double distance=Math.sqrt(Math.pow((X1-X),2)+Math.pow((Y1-Y),2));
-            if((int)distance <= this.targetDistance)
-            {
-                this.target=enemyBot;
-                this.targetDistance = (int) distance;
-                //посмотрим, может можно стрельнуть
-                this.botMode=2;
-//                System.out.println(this.name+" выбрал целью "+enemyBot.name+" в "+X1+"-"+Y1);
+            path = pathFinder.findPath((Mover) this, X, Y, X1, Y1);
+            if (path!=null){
+                int distance = path.getLength();
+                if(distance <= this.targetDistance)
+                {
+                    this.target=enemyBot;
+                    this.targetDistance = distance;
+                    //посмотрим, может можно стрельнуть
+                    this.botMode=2;
+//                    System.out.println(this.name+" выбрал целью "+enemyBot.name+" в "+X1+"-"+Y1);
+                }
             }
         }
     }
@@ -162,46 +172,25 @@ public abstract class Bot extends Obstacles{
     
     public void move(){
         
-        AStarPathFinder pathFinder = new AStarPathFinder((TileBasedMap) terrain, 10, false);
-        Path path = pathFinder.findPath(null, posX, posY, target.posX, target.posY);
+//        path = pathFinder.findPath((Mover) this, posX, posY, target.posX, target.posY);
 
-        int length = path.getLength();
-        System.out.println("Found path of length: " + length + ".");
-
-        for(int i = 0; i < length; i++) {
-            System.out.println("Move to: " + path.getX(i) + "," + path.getY(i) + ".");
-        }
+//        System.out.println(this.name+" ходит в " + path.getX(1) + ", " + path.getY(1));
+        oldPosX=posX;
+        oldPosY=posY;
+        posX=path.getX(1);
+        posY=path.getY(1);
+        targetDistance=99999;
         
-        
-        
-        int surface = terrain.getSurface(this.posX, this.posY);
-        float step = (float)this.targetDistance/(float)this.body.speed;
-        float vectorX=(this.target.posX-this.posX);
-        float vectorY=(this.target.posY-this.posY);
-        //
-        float newX = this.posX+(vectorX/step)/surface;
-        float newY = this.posY+(vectorY/step)/surface;
-        
-        newX = newX<0?0:newX;
-        newY = newY<0?0:newY;
-        newX = newX>WORLD_SIZE?WORLD_SIZE:newX;
-        newY = newY>WORLD_SIZE?WORLD_SIZE:newY;
-        
-        this.posX=Math.round(newX);
-        this.posY=Math.round(newY);
-        
-        this.targetDistance=99999;
+//        terrain.setObstacle(posX, posY);
         //посмотрим, может есть кто-нть поближе
-        this.botMode=1;
+        botMode=1;
     }
 
     public void shoot(){
-        
         //Это будут пули. пока не используется
         //Projectile projectile;
         //projectile = new Projectile(this.posX, this.posY, this.target.posX, this.target.posY, this.weapon.speed, this.weapon.damage);
-        
-        //System.out.println(this.name+" стреляет.");
+//        System.out.println(this.name+" стреляет.");
         this.target.doDamage(this.weapon.damage);
         this.targetDistance=99999;
         this.botMode=1;
@@ -210,26 +199,9 @@ public abstract class Bot extends Obstacles{
     
     public void die(){
 //        System.out.println(this.name+" УМЕР");
-        BotRemains remains;
-        switch(random.nextInt(2)){
-            case 0:
-                remains = new BotRemains(this.body);
-                remains.health = this.body.durability;
-                remains.part.name = this.body.name;
-                remains.part.image = this.body.image;
-                break;
-            case 1:
-                remains = new BotRemains(this.power);
-                remains.health = this.power.durability;
-                remains.part.name = this.power.name;
-                remains.part.image = this.power.image;
-                break;
-            default:
-                remains=null;
-        }
     }
     
-    public void setEquipment(int bodyId) throws SlickException
+    public void setEquipment(int bodyId, int weaponId, int powerId) throws SlickException
     {
         switch (bodyId)
         {
@@ -243,7 +215,7 @@ public abstract class Bot extends Obstacles{
                 body.antigrav();
                 break;
         }
-/*
+
         switch (weaponId)
         {
             case 0:
@@ -264,29 +236,6 @@ public abstract class Bot extends Obstacles{
             case 1:
                 power.nuclearReactor();
                 break;
-            case 2:
-                power.tousandChinese();
-                break;
-        }*/
-    }
-
-    /**
-     *Описывает цвета каждого из режимов работы бота
-     * @return
-     */
-    public Color getStatusColor()
-    {
-        Color C = Color.WHITE;
-        
-        switch(this.botMode){
-            case 0: C=Color.black;break;
-            case 1: C=Color.white;break;
-            case 2: C=Color.yellow;break;
-            case 3: C=Color.green;break;
-            case 4: C=Color.red;break;
-            case 5: C=Color.magenta;break;
         }
-        return C;
     }
- 
 }

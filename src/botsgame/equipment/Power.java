@@ -5,9 +5,9 @@
  */
 package botsgame.equipment;
 
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
+import org.newdawn.slick.Animation;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 
 /**
  *
@@ -16,35 +16,31 @@ import javax.imageio.ImageIO;
     public class Power extends Equipment{
         public String name;
         public int power;
+        private SpriteSheet sheet;
 
-        public void nuclearReactor() {
+        public void nuclearReactor() throws SlickException {
             this.name = "Ядерный реактор";
             this.power = 100;
             this.durability = 10;
-/*            try {                
-               this.image = ImageIO.read(new File("assets/nuclear.gif"));
-            } catch (IOException ex) {
-                 // handle exception...
-            }*/
+            sheet = new SpriteSheet("/assets/images/nuclear.png",32,32); //спрайт игрока
+            this.image = new Animation();        //создаем анимацию игрока
+            this.image.setAutoUpdate(true); 
+            for (int frame=0;frame<1;frame++) 
+            { // покадровая анимация игрока
+                image.addFrame(sheet.getSprite(frame,0), 150);
+            }                
+            
         }
-        public void dieselEngine(){
+        public void dieselEngine() throws SlickException{
             this.name = "Дизель-генератор";
             this.power = 10;
-/*            this.durability = 100;
-            try {                
-               this.image = ImageIO.read(new File("assets/diesel.gif"));
-            } catch (IOException ex) {
-                 // handle exception...
-            }*/
-        }
-        public void tousandChinese(){
-            this.name = "Тысяча китайцев";
-            this.power = 50;
-            this.durability = 50;
-/*            try {                
-               this.image = ImageIO.read(new File("assets/chinese.gif"));
-            } catch (IOException ex) {
-                 // handle exception...
-            }*/
+            this.durability = 80;
+            sheet = new SpriteSheet("/assets/images/diesel.png",32,32); //спрайт игрока
+            this.image = new Animation();        //создаем анимацию игрока
+            this.image.setAutoUpdate(true); 
+            for (int frame=0;frame<1;frame++) 
+            { // покадровая анимация игрока
+                image.addFrame(sheet.getSprite(frame,0), 150);
+            }                
         }
     }
