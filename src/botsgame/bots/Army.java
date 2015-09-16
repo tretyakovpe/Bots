@@ -6,11 +6,6 @@
 package botsgame.bots;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
 
@@ -37,16 +32,15 @@ public class Army {
 
     public void execute(Army enemies) throws SlickException
     {
-        for(Bot bot: this.bots)
+        for(Bot bot : bots)
         {
             switch (bot.botMode)
             {
                 case 0:
                     bot.die();
-                    int pos = bots.indexOf(bot);
-                    bots.remove(bot);
+//                    bots.remove(bot);
                     numberOfBot++;
-                    bots.add(pos, new Bot(this.teamName+"Bot-"+numberOfBot, this.flagColor));
+                    bots.set(bots.indexOf(bot), new Bot(this.teamName+"Bot-"+numberOfBot, this.flagColor));
                     break;
                 case 1: 
                     bot.see(enemies);

@@ -2,19 +2,16 @@ package botsgame;
 
 import static botsgame.Constants.*;
 import botsgame.bots.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.util.pathfinding.Path.Step;
 
 public class BotsGame extends BasicGame
 {
-    public int optionArmySize = 2; //кол-во ботов в команде	
+    public int optionArmySize = 3; //кол-во ботов в команде	
 
     public Army armyBlue;
     public Army armyRed;
@@ -47,13 +44,13 @@ public class BotsGame extends BasicGame
     {
         g.setDrawMode(1);
         land.render(0,0);
-        for(Bot blueBot: armyBlue.bots)
+        for(Bot bot: armyBlue.bots)
         {
-            drawBot(g, blueBot);
+            drawBot(g, bot);
         }
-        for(Bot redBot: armyRed.bots)
+        for(Bot bot: armyRed.bots)
         {
-            drawBot(g, redBot);
+            drawBot(g, bot);
         }
     }
 

@@ -82,7 +82,7 @@ public class Bot extends Obstacles implements Mover{
 
     void see(Army enemies){
         
-        for(Bot enemyBot:enemies.bots)
+        for(Bot enemyBot: enemies.bots)
         {
             int X1 = enemyBot.posX;
             int Y1 = enemyBot.posY;
@@ -152,7 +152,7 @@ public class Bot extends Obstacles implements Mover{
     }
     
     void die(){
-        System.out.println(this.name+" --------------------------- УМЕР");
+//        System.out.println(this.name+" --------------------------- УМЕР");
     }
     
     private void setEquipment(int bodyId, int weaponId, int powerId) throws SlickException
