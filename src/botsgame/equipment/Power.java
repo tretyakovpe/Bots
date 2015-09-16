@@ -34,7 +34,7 @@ import org.newdawn.slick.SpriteSheet;
         public void dieselEngine() throws SlickException{
             this.name = "Дизель-генератор";
             this.power = 10;
-            this.durability = 80;
+            this.durability = 15;
             sheet = new SpriteSheet("/assets/images/diesel.png",32,32); //спрайт игрока
             this.image = new Animation();        //создаем анимацию игрока
             this.image.setAutoUpdate(true); 

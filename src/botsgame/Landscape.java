@@ -15,7 +15,7 @@ import org.newdawn.slick.util.pathfinding.TileBasedMap;
  * @author pavel.tretyakov
  */
 public class Landscape extends TiledMap implements TileBasedMap{
-    private int obstacle;
+    private final int obstacle;
 
     public Landscape(String ref, int obstacle) throws SlickException {
         super(ref);
