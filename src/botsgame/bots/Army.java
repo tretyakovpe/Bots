@@ -7,6 +7,7 @@ package botsgame.bots;
 
 import java.util.ArrayList;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 /**
@@ -62,6 +63,13 @@ public class Army {
                     break;
             }
         }
+    }
+    
+    public void drawArmy(Graphics g) throws SlickException{
+        for(Bot bot : bots)
+        {
+            bot.drawBot(g);        
+        }        
     }
 
 }

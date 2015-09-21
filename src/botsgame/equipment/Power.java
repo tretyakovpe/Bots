@@ -19,15 +19,21 @@ import org.newdawn.slick.SpriteSheet;
         private SpriteSheet sheet;
 
         public void nuclearReactor() throws SlickException {
-            this.name = "Ядерный реактор";
-            this.power = 100;
-            this.durability = 10;
+            this.name = "РИТЭГ";
+            this.power = 30;
+            this.durability = 20;
             sheet = new SpriteSheet("/assets/images/nuclear.png",32,32); //спрайт игрока
         }
         public void dieselEngine() throws SlickException{
             this.name = "Дизель-генератор";
+            this.power = 20;
+            this.durability = 30;
+            sheet = new SpriteSheet("/assets/images/diesel.png",32,32); //спрайт игрока
+        }
+        public void solarPlate() throws SlickException{
+            this.name = "Солнечная батарея";
             this.power = 10;
-            this.durability = 15;
+            this.durability = 10;
             sheet = new SpriteSheet("/assets/images/diesel.png",32,32); //спрайт игрока
         }
     }

@@ -36,7 +36,7 @@ import org.newdawn.slick.SpriteSheet;
         public void wheel() throws SlickException{
                 this.name = "Колеса";
                 this.durability = 18;
-                this.speed = 8f;
+                this.speed = 4f;
                 sheet = new SpriteSheet("/assets/images/wheels.png",32,32); //спрайт игрока
                 for(int i=0; i<4; i++)
                 {
@@ -47,7 +47,7 @@ import org.newdawn.slick.SpriteSheet;
         public void antigrav() throws SlickException{
                 this.name = "Антигравы";
                 this.durability = 15;
-                this.speed = 4f;
+                this.speed = 2f;
                 sheet = new SpriteSheet("/assets/images/antigrav.png",32,32); //спрайт игрока
                 for(int i=0; i<4; i++)
                 {

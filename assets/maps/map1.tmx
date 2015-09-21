@@ -3,14 +3,14 @@
  <tileset firstgid="1" name="tmw_desert_spacing" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="48">
   <image source="../../../../../Program Files (x86)/Tiled/examples/tmw_desert_spacing.png" width="265" height="199"/>
  </tileset>
- <layer name="surface" width="25" height="25" visible="0">
+ <layer name="surface" width="25" height="25">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3DAQkAAAwEoUvy/WMux0DBVVNV9dUD+rS8yMQJAAA=
+   H4sIAAAAAAAAC5NjYGCQoyM2oLJ5anR2/yimDCsMAjeM4uGNR0qZoE6hfmqXxbTECoPADcMZswExB43t4ANiASDWp7EdPEDMDsW08JMYEIsjYQk0eQ06xx0AtDPfmMQJAAA=
   </data>
  </layer>
  <layer name="obstacle" width="25" height="25">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+WVQQvCMAyFo57cTnPzInoY2y6i///vLUEDJWRt0loRfPBglLXfXpKyGQDuFb2gJ6ir8YOMxshoCm1l5H7zLzJk/h36UIER6oi+Ck64J9aXFIP3dOgTun+vy1wxWXNIxXLlMDQe5TorHMq3V5yaq61MzGmDNco3wKuuoXMZfKZktOIdrpX3HvOzh+HVtxnUd+7tLYORqhvfG+o997oXZ3hyxOZZq9E/M7Z4JOqL7EMpwyMLQ5sn63/WwygRMR7oS0U/0SuyWQcoxAkAAA==
+   H4sIAAAAAAAAC82W3QrCMAyFo7sSr7TbnXv/13SBBY4xv7KBhYC2ab82OQmbieh5oi2b3enccTuQcdlsShjsczVsStbFVue+yODfM33Hc+zrD/qMsfb14q4Z1bhZvt7+KkPHmt80lI/s174RA3157UV2TiVP6+6j8xIx8K6SC/mPfMyTzmHGiEb0Lss3Ynia57svBsfSN8auoxXk6NhHmu4yrHXvDH4v6kK/U+aw3lFvFYZV25YN45wqo9sTNQPfbvWsjJHpRGoD+5dX/9GdK70vOqerm87cPzGs/lqdqzKOGBWG1lalD3YZqK1fvmN0DXnfAlG/yYz3vAGJ34/xxAkAAA==
   </data>
  </layer>
 </map>

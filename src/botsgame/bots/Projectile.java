@@ -31,7 +31,7 @@ public class Projectile {
     }
     
     public void draw(Graphics g){
-        g.fillOval(posX, posX, 1, 1);
+        
     }
             
 }
