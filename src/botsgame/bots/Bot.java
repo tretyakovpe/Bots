@@ -2,16 +2,10 @@ package botsgame.bots;
 
 import static botsgame.Constants.*;
 import botsgame.Landscape;
-import botsgame.equipment.Comp;
-import botsgame.equipment.Power;
-import botsgame.equipment.Weapon;
-import botsgame.equipment.Body;
+import botsgame.equipment.*;
 
 import java.util.Random;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.*;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 import org.newdawn.slick.util.pathfinding.Mover;
 import org.newdawn.slick.util.pathfinding.Path;
@@ -25,6 +19,10 @@ import org.newdawn.slick.util.pathfinding.TileBasedMap;
 public class Bot extends Obstacles implements Mover{
 
     public static Landscape terrain;
+    private static Animation explosionAnimation;
+    private static Animation hitAnimation;
+    private static SpriteSheet explosionSprite;
+    private static SpriteSheet hitSprite; 
     protected AStarPathFinder pathFinder;
     public Path path;
 
@@ -55,8 +53,7 @@ public class Bot extends Obstacles implements Mover{
     private final Random random;
     
     private float stepX, stepY = 0;
-    
-    
+
     protected int respawnX;
     protected int respawnY;
 
@@ -86,6 +83,10 @@ public class Bot extends Obstacles implements Mover{
             x = Math.round(random.nextInt(800)/32)*32;
             y = Math.round(random.nextInt(800)/32)*32; 
         }
+        hitSprite = new SpriteSheet("/assets/images/hit.png",32,32); 
+        hitAnimation = new Animation(hitSprite,0,0,23,0,true,20,true);
+        explosionSprite = new SpriteSheet("/assets/images/explosion.png",64,64); 
+        explosionAnimation = new Animation(explosionSprite,0,0,3,3,true,150,true);   
         flagSheet = new SpriteSheet("/assets/images/"+flagColor+"flag.png",32,32); //спрайт игрока
         for(int i=0; i<4; i++)
         {
@@ -184,7 +185,6 @@ public class Bot extends Obstacles implements Mover{
 
     
     void move(){
-//        path = pathFinder.findPath(this, Math.round(posX/CELL_SIZE), Math.round(posY/CELL_SIZE), Math.round(target.posX/CELL_SIZE), Math.round(target.posY/CELL_SIZE));
         posX+=stepX;
         posY+=stepY;
         if(posX == nextPosX && posY == nextPosY)
@@ -192,13 +192,6 @@ public class Bot extends Obstacles implements Mover{
             botMode=1;
         }
     }
-    float lerp(float oldPos, float newPos, float t) {
-          if (t < 0)
-          {
-             return oldPos;
-          }
-          return oldPos +t* (newPos - oldPos);
-       }
 
     void shoot(){
         //Это будут пули. пока не используется
@@ -229,13 +222,15 @@ public class Bot extends Obstacles implements Mover{
         botMode=1;
     }
     
-    
-    
     void doReload()
     {
         if(this.reloading>0)
         {
-            this.reloading--;
+            this.reloading-=power.power;
+            if(this.reloading<0)
+            {
+                this.reloading=0;
+            }
 //            System.out.println(this.name+" осталось заряжаться "+this.reloading);
         }
     }
@@ -277,4 +272,36 @@ public class Bot extends Obstacles implements Mover{
                 break;
         }
     }
+
+    protected void drawBot(Graphics g) throws SlickException
+    {
+        float x=posX;
+        float y=posY;
+        body.image.draw(x, y);
+        flagImage.draw(x, y);
+        weapon.image.draw(x, y);
+        switch (botMode)
+        {
+            case 0:
+                g.drawAnimation(explosionAnimation,  x-16,  y-16);
+                break;
+            case 1:
+                break;
+            case 2: 
+                break;
+            case 3:
+                break;
+            case 4: 
+                g.setColor(flagColor);
+                g.drawLine(x+16, y+16, target.posX+16,  target.posY+16);
+                hitAnimation.draw(target.posX,  target.posY);
+                break;
+            case 5: 
+                break;
+            case 6: 
+                break;
+        }
+        
+    }
+    
 }
