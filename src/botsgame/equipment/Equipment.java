@@ -6,6 +6,7 @@
 package botsgame.equipment;
 
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.Image;
 
 /**
  *
@@ -14,5 +15,5 @@ import org.newdawn.slick.Animation;
 public abstract class Equipment {
     public String name;
     public int durability;
-    public Animation image;
+    public Image image;
 }

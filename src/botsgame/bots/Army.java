@@ -14,9 +14,10 @@ import org.newdawn.slick.SlickException;
  * @author pavel.tretyakov
  */
 public class Army {
-    public ArrayList<Bot> bots;
+    public ArrayList<Bot> bots;  //список ботов команды
+    private static ArrayList<Bot> targets; //список обнаруженных целей
     public String teamName;
-    private int numberOfBot = 0;
+    private int botNum = 0; //для сквозной нумерации ботов, 
     private final Color flagColor;
 
     public Army(String teamName, int Count, Color flagColor) throws SlickException {
@@ -25,8 +26,8 @@ public class Army {
         this.flagColor=flagColor;
         for(int i=0; i<Count; i++)
         {
-            numberOfBot++;
-            bots.add(new Bot(this.teamName+"Bot-"+numberOfBot, this.flagColor));
+            botNum++;
+            bots.add(new Bot(this.teamName+" Bot-"+botNum, this.flagColor, this.teamName));
         }
     }
 
@@ -34,27 +35,30 @@ public class Army {
     {
         for(Bot bot : bots)
         {
+            bot.doReload();
             switch (bot.botMode)
             {
-                case 0:
+                case 0: //смерть
                     bot.die();
-//                    bots.remove(bot);
-                    numberOfBot++;
-                    bots.set(bots.indexOf(bot), new Bot(this.teamName+"Bot-"+numberOfBot, this.flagColor));
+                    botNum++;
+                    bots.set(bots.indexOf(bot), new Bot(this.teamName+"Bot-"+botNum, this.flagColor,  this.teamName));
                     break;
-                case 1: 
+                case 1: //просмотр целей
                     bot.see(enemies);
                     break;
-                case 2: 
+                case 2: //прицеливание
                     bot.aim();
                     break;
-                case 3: 
+                case 3: //движение
                     bot.move();
                     break;
-                case 4: 
+                case 4: //стрельба
                     bot.shoot();
                     break;
-                case 5: 
+                case 5: //поиск целей, патрулирование
+                    break;
+                case 6: //поворот
+                    bot.rotate();
                     break;
             }
         }

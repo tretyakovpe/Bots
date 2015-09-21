@@ -2,6 +2,8 @@ package botsgame;
 
 import static botsgame.Constants.*;
 import botsgame.bots.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
@@ -9,9 +11,18 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
+import org.newdawn.slick.Animation;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.util.pathfinding.Path.Step;
+
 public class BotsGame extends BasicGame
 {
-    public int optionArmySize = 3; //кол-во ботов в команде	
+    Animation explosionAnimation;
+    Animation hitAnimation;
+    SpriteSheet explosionSprite;
+    SpriteSheet hitSprite;
+    public int optionArmySize = 1; //кол-во ботов в команде	
 
     public Army armyBlue;
     public Army armyRed;
@@ -25,16 +36,21 @@ public class BotsGame extends BasicGame
 
     @Override
     public void init(GameContainer gc) throws SlickException {
+    
+        hitSprite = new SpriteSheet("/assets/images/hit.png",32,32); 
+        hitAnimation = new Animation(hitSprite,0,0,23,0,true,20,true);
+        explosionSprite = new SpriteSheet("/assets/images/explosion.png",64,64); 
+        explosionAnimation = new Animation(explosionSprite,0,0,3,3,true,150,true);   
+        
+        
         land = new Landscape("/assets/maps/map1.tmx",1);
         Bot.terrain=land;
-        armyBlue = new Army("Blue", optionArmySize,Color.blue);
-        armyRed = new Army("Red", optionArmySize,Color.red);
+        armyBlue = new Army("Blue", optionArmySize, Color.blue);
+        armyRed = new Army("Red", optionArmySize, Color.red);
     }
 
     @Override
     public void update(GameContainer gc, int i) throws SlickException {
-        if(armyBlue.bots.isEmpty()){System.out.println("Синие сдохли");}
-        if(armyRed.bots.isEmpty()){System.out.println("Красные сдохли");}
         armyBlue.execute(armyRed);
         armyRed.execute(armyBlue);
     }
@@ -44,6 +60,7 @@ public class BotsGame extends BasicGame
     {
         g.setDrawMode(1);
         land.render(0,0);
+
         for(Bot bot: armyBlue.bots)
         {
             drawBot(g, bot);
@@ -54,36 +71,35 @@ public class BotsGame extends BasicGame
         }
     }
 
-    private void drawBot(Graphics g, Bot bot)
+    private void drawBot(Graphics g, Bot bot) throws SlickException
     {
-        int x=bot.posX*CELL_SIZE;
-        int y=bot.posY*CELL_SIZE;
-        g.setColor(bot.flagColor);
-        g.drawRect((float) x, (float) y, CELL_SIZE, CELL_SIZE);
-        g.drawAnimation(bot.body.image, (float) x, (float) y);
-        g.drawAnimation(bot.power.image, (float) x, (float) y);
-        g.drawAnimation(bot.weapon.image, (float) x, (float) y);
-
-
-
-        /*if(bot.botMode==3)
+        float x=bot.posX;
+        float y=bot.posY;
+        bot.body.image.draw(x, y);
+        bot.flagImage.draw(x, y);
+        bot.weapon.image.draw(x, y);
+        switch (bot.botMode)
         {
-            for(int i=0;i<bot.path.getLength();i++)
-            {
-                step=bot.path.getStep(i);
-                x=step.getX();
-                y=step.getY();
+            case 0:
+                g.drawAnimation(explosionAnimation,  x-16,  y-16);
+                break;
+            case 1:
+                break;
+            case 2: 
+                break;
+            case 3:
+                break;
+            case 4: 
                 g.setColor(bot.flagColor);
-                g.fillOval(x*CELL_SIZE+16, y*CELL_SIZE+16, 16, 16);
-            }
-        }*/
-
-        if(bot.botMode==4)
-        {
-            g.setColor(bot.flagColor);
-            g.drawLine(x+16, y+5, bot.target.posX*CELL_SIZE,  bot.target.posY*CELL_SIZE);
-            g.fillOval(bot.target.posX*CELL_SIZE,  bot.target.posY*CELL_SIZE,10,10);
+                g.drawLine(x+16, y+16, bot.target.posX+16,  bot.target.posY+16);
+                hitAnimation.draw(bot.target.posX,  bot.target.posY);
+                break;
+            case 5: 
+                break;
+            case 6: 
+                break;
         }
+        
     }
 
     public static void main(String[] args)
@@ -92,7 +108,7 @@ public class BotsGame extends BasicGame
         {
             AppGameContainer appgc = new AppGameContainer(new BotsGame("Bots"));
             appgc.setDisplayMode(WINDOW_WIDTH, WINDOW_HEIGHT, false);
-            appgc.setAlwaysRender(true);
+            appgc.setAlwaysRender(false);
             appgc.setVSync(true); //включаем вертикальную синхронизацию
             appgc.setMinimumLogicUpdateInterval(TIMER);
 
@@ -100,7 +116,7 @@ public class BotsGame extends BasicGame
         }
         catch (SlickException ex)
         {
-//            Logger.getLogger(BotsGame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BotsGame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

@@ -14,15 +14,16 @@ package botsgame.bots;
  */
 public abstract class Obstacles {
     
-    public int posX;
-    public int posY;
-    public int oldPosX;
-    public int oldPosY;
-    public int health;
+    public float posX;
+    public float posY;
+    public float nextPosX;
+    public float nextPosY;
+    public int maxHealth;
+    public int currentHealth;
     
     public void doDamage(int damage)
     {
-        this.health-=damage;
+        this.currentHealth-=damage;
     }
     
     

@@ -23,24 +23,11 @@ import org.newdawn.slick.SpriteSheet;
             this.power = 100;
             this.durability = 10;
             sheet = new SpriteSheet("/assets/images/nuclear.png",32,32); //спрайт игрока
-            this.image = new Animation();        //создаем анимацию игрока
-            this.image.setAutoUpdate(true); 
-            for (int frame=0;frame<1;frame++) 
-            { // покадровая анимация игрока
-                image.addFrame(sheet.getSprite(frame,0), 150);
-            }                
-            
         }
         public void dieselEngine() throws SlickException{
             this.name = "Дизель-генератор";
             this.power = 10;
             this.durability = 15;
             sheet = new SpriteSheet("/assets/images/diesel.png",32,32); //спрайт игрока
-            this.image = new Animation();        //создаем анимацию игрока
-            this.image.setAutoUpdate(true); 
-            for (int frame=0;frame<1;frame++) 
-            { // покадровая анимация игрока
-                image.addFrame(sheet.getSprite(frame,0), 150);
-            }                
         }
     }

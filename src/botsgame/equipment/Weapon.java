@@ -5,9 +5,8 @@
  */
 package botsgame.equipment;
 
-import org.newdawn.slick.Animation;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.SpriteSheet;
 
 /**
  *
@@ -17,45 +16,26 @@ import org.newdawn.slick.SpriteSheet;
         public int speed;
         public int range;
         public int damage;
-        private SpriteSheet sheet;
 
         public void cannon() throws SlickException{
             this.name = "Пушка";
-            this.speed = 5;
-            this.range = 5;
-            this.damage = 3;
-            sheet = new SpriteSheet("/assets/images/cannon.png",32,32); //спрайт игрока
-            this.image = new Animation();        //создаем анимацию игрока
-            this.image.setAutoUpdate(true); 
-            for (int frame=0;frame<1;frame++) 
-            { // покадровая анимация игрока
-                image.addFrame(sheet.getSprite(frame,0), 150);
-            }                
+            this.speed = 3;
+            this.range = 150;
+            this.damage = 20;
+            image = new Image("/assets/images/cannon.png");
         }
         public void laser() throws SlickException{
             this.name = "Лазер";
             this.speed = 5;
-            this.range = 10;
-            this.damage = 1;
-            sheet = new SpriteSheet("/assets/images/laser.png",32,32); //спрайт игрока
-            this.image = new Animation();        //создаем анимацию игрока
-            this.image.setAutoUpdate(true); 
-            for (int frame=0;frame<1;frame++) 
-            { // покадровая анимация игрока
-                image.addFrame(sheet.getSprite(frame,0), 150);
-            }                
+            this.range = 300;
+            this.damage = 10;
+            image = new Image("/assets/images/laser.png");
         }
         public void plasma() throws SlickException{
             this.name = "Плазма";
             this.speed = 1;
-            this.range = 4;
-            this.damage = 5;
-            sheet = new SpriteSheet("/assets/images/plasma.png",32,32); //спрайт игрока
-            this.image = new Animation();        //создаем анимацию игрока
-            this.image.setAutoUpdate(true); 
-            for (int frame=0;frame<1;frame++) 
-            { // покадровая анимация игрока
-                image.addFrame(sheet.getSprite(frame,0), 150);
-            }                
+            this.range = 75;
+            this.damage = 30;
+            image = new Image("/assets/images/plasma.png");
         }
     }
