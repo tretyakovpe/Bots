@@ -12,17 +12,17 @@ package botsgame.equipment;
 
     public class Comp{
         public String name;
-        public int viewDiastance;
+        public int viewDistance;
         public void deskComp(){
             this.name="Десктоп";
-            this.viewDiastance=3;
+            this.viewDistance=100;
         }
         public void militaryComp(){
             this.name="Военный компьютер";
-            this.viewDiastance=5;
+            this.viewDistance=200;
         }
         public void nasaComp(){
             this.name="Спутниковое управление";
-            this.viewDiastance=15;
+            this.viewDistance=500;
         }
     }

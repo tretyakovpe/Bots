@@ -15,11 +15,13 @@ import org.newdawn.slick.util.pathfinding.TileBasedMap;
  * @author pavel.tretyakov
  */
 public class Landscape extends TiledMap implements TileBasedMap{
-    private final int obstacle;
+    private final int obstacles;
+    private final int units;
 
-    public Landscape(String ref, int obstacle) throws SlickException {
+    public Landscape(String ref) throws SlickException {
         super(ref);
-        this.obstacle = obstacle;
+        this.obstacles = 1;
+        this.units = 2;
     }
             
     @Override
@@ -38,7 +40,7 @@ public class Landscape extends TiledMap implements TileBasedMap{
 
     @Override
     public boolean blocked(PathFindingContext pfc, int x, int y) {
-        return this.getTileId(x, y, obstacle) != 0;
+        return this.getTileId(x, y, obstacles) != 0;
     }
 
     public void setObstacle(int x, int y){

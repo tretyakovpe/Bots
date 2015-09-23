@@ -14,7 +14,7 @@ import org.newdawn.slick.SlickException;
  *
  * @author pavel.tretyakov
  */
-public class Army {
+public class Army implements Runnable {
     public ArrayList<Bot> bots;  //список ботов команды
     private static ArrayList<Bot> targets; //список обнаруженных целей
     public String teamName;
@@ -70,6 +70,11 @@ public class Army {
         {
             bot.drawBot(g);        
         }        
+    }
+
+    @Override
+    public void run() {
+
     }
 
 }

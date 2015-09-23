@@ -46,7 +46,6 @@ public class Bot extends Obstacles implements Mover{
     public float stepDirection; //направление следующего шага бота
     public float targetDirection; //направление на цель
     
-    
     private int reloading; //перезарядка оружия
     public float t; //перемещение из клетки в клетку
     
@@ -69,7 +68,7 @@ public class Bot extends Obstacles implements Mover{
      * 5-поиск цели
      * 6-поворачивание
      */
-    public int botMode;
+    protected int botMode;
 
     public Bot(String name, Color color, String flagColor) throws SlickException
     {
@@ -106,13 +105,26 @@ public class Bot extends Obstacles implements Mover{
         this.botDirection=0;
         this.stepDirection=0;
         this.targetDirection=0;
-        setEquipment(random.nextInt(3),random.nextInt(3),random.nextInt(2));
+        setEquipment();
         super.maxHealth = this.body.durability+this.power.durability;
         super.currentHealth=super.maxHealth;
 //        System.out.println("Появился "+this.name+" в "+this.posX+"-"+this.posY);
     }
 
-    void see(Army enemies){
+    protected void look()
+    {
+        int radius = (int)Math.round(comp.viewDistance/32);
+        int x = Math.round(posX/CELL_SIZE);
+        int y = Math.round(posY/CELL_SIZE);
+        int tileId;
+        for(int i=1; i<radius; i++)
+        {
+
+        }
+        
+    }
+    
+    protected void see(Army enemies){
         for(Bot enemyBot: enemies.bots)
         {
             float X1 = enemyBot.posX;
@@ -139,7 +151,6 @@ public class Bot extends Obstacles implements Mover{
                     nextPosX = path.getX(1)*CELL_SIZE;
                     nextPosY = path.getY(1)*CELL_SIZE;
                     
-                    //
                     stepX=(nextPosX-posX)/body.speed; //знаменатель определяет количество кадров на тайл карты. Обязательно четное
                     stepY=(nextPosY-posY)/body.speed;
                     
@@ -158,11 +169,12 @@ public class Bot extends Obstacles implements Mover{
 //                        System.out.println(this.name+" смотрит на "+botDirection+", шаг на "+stepDirection);
                         if(botDirection!=stepDirection)
                         {
-                            botMode=6;
+                            botMode=6; //поворачиваемся
                         }
                         else
                         {
-                            botMode=3;
+                            terrain.setTileId((int)posX/CELL_SIZE, (int)posY/CELL_SIZE, 2, 0);
+                            botMode=3; //движемся
                         }
                     }
                 }
@@ -170,7 +182,7 @@ public class Bot extends Obstacles implements Mover{
         }
     }
 
-    void aim(){
+    protected void aim(){
         //Если зарядился, то можно стрелять
 //        System.out.println(this.name+" целится в "+this.target.name);
         if(this.reloading==0)
@@ -182,18 +194,18 @@ public class Bot extends Obstacles implements Mover{
             this.botMode = 1;
         }
     }
-
     
-    void move(){
+    protected void move(){
         posX+=stepX;
         posY+=stepY;
         if(posX == nextPosX && posY == nextPosY)
         {
+            terrain.setTileId((int)posX/CELL_SIZE, (int)posY/CELL_SIZE, 2, 30);
             botMode=1;
         }
     }
 
-    void shoot(){
+    protected void shoot(){
         //Это будут пули. пока не используется
         //Projectile projectile;
         //projectile = new Projectile(this.posX, this.posY, this.target.posX, this.target.posY, this.weapon.speed, this.weapon.damage);
@@ -210,11 +222,11 @@ public class Bot extends Obstacles implements Mover{
 
     }
     
-    void die(){
+    protected void die(){
 //        System.out.println(this.name+" УМЕР");
     }
     
-    void rotate(){
+    protected void rotate(){
         float angleDelta;
         angleDelta=stepDirection-botDirection;
 //        System.out.println(this.name+" смотрит на "+botDirection+", поворачивается на "+angleDelta+" до "+stepDirection);
@@ -222,7 +234,7 @@ public class Bot extends Obstacles implements Mover{
         botMode=1;
     }
     
-    void doReload()
+    protected void doReload()
     {
         if(this.reloading>0)
         {
@@ -235,8 +247,13 @@ public class Bot extends Obstacles implements Mover{
         }
     }
     
-    private void setEquipment(int bodyId, int weaponId, int powerId) throws SlickException
+    private void setEquipment() throws SlickException
     {
+        int bodyId = random.nextInt(3);
+        int weaponId = random.nextInt(3);
+        int powerId = random.nextInt(2);
+        int compId = random.nextInt(3);
+        
         switch (bodyId)
         {
             case 0:
@@ -269,6 +286,19 @@ public class Bot extends Obstacles implements Mover{
                 break;
             case 1:
                 power.nuclearReactor();
+                break;
+        }
+
+        switch (compId)
+        {
+            case 0:
+                comp.deskComp();
+                break;
+            case 1:
+                comp.militaryComp();
+                break;
+            case 2:
+                comp.nasaComp();
                 break;
         }
     }

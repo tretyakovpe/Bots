@@ -35,7 +35,7 @@ public class BotsGame extends BasicGame
     
         
         
-        land = new Landscape("/assets/maps/map1.tmx",1);
+        land = new Landscape("/assets/maps/map1.tmx");
         Bot.terrain=land;
         armyBlue = new Army("Blue", optionArmySize, Color.blue);
         armyRed = new Army("Red", optionArmySize, Color.red);
