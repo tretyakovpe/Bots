@@ -4,6 +4,8 @@ import static botsgame.Constants.*;
 import botsgame.bots.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
@@ -45,6 +47,24 @@ public class BotsGame extends BasicGame
     public void update(GameContainer gc, int i) throws SlickException {
         armyBlue.execute(armyRed);
         armyRed.execute(armyBlue);
+        
+        if (Mouse.isButtonDown(0)) {
+            
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
+        
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
+        
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
+        
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
+        
+        }
+
+        
     }
 
     @Override
