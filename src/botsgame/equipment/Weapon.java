@@ -28,14 +28,14 @@ import org.newdawn.slick.SlickException;
             this.name = "Лазер";
             this.speed = 5;
             this.range = 300;
-            this.damage = 10;
+            this.damage = 5;
             image = new Image("/assets/images/laser.png");
         }
         public void plasma() throws SlickException{
             this.name = "Плазма";
             this.speed = 1;
-            this.range = 75;
-            this.damage = 30;
+            this.range = 100;
+            this.damage = 40;
             image = new Image("/assets/images/plasma.png");
         }
     }

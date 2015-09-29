@@ -16,7 +16,8 @@ import org.newdawn.slick.SlickException;
  */
 public class Army implements Runnable {
     public ArrayList<Bot> bots;  //список ботов команды
-    private static ArrayList<Bot> targets; //список обнаруженных целей
+    private ArrayList<Bot> targets; //список обнаруженных целей
+    private Army enemies = null; //список обнаруженных целей
     public String teamName;
     private int botNum = 0; //для сквозной нумерации ботов, 
     private final Color flagColor;
@@ -32,7 +33,11 @@ public class Army implements Runnable {
         }
     }
 
-    public void execute(Army enemies) throws SlickException
+    public void setTargets(Army enemies){
+        this.enemies = enemies;
+    }
+    
+    public void execute() throws SlickException
     {
         for(Bot bot : bots)
         {

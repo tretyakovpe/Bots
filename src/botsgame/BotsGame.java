@@ -13,19 +13,12 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
-import org.newdawn.slick.Animation;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.SpriteSheet;
-import org.newdawn.slick.util.pathfinding.Path.Step;
-
 public class BotsGame extends BasicGame
 {
-    public int optionArmySize = 1; //кол-во ботов в команде	
-
     public Army armyBlue;
     public Army armyRed;
-
     public Landscape land;
+    public Repair repairStation;
     
     public BotsGame(String gamename) throws SlickException
     {
@@ -34,19 +27,23 @@ public class BotsGame extends BasicGame
 
     @Override
     public void init(GameContainer gc) throws SlickException {
-    
-        
-        
         land = new Landscape("/assets/maps/map1.tmx");
+        repairStation = new Repair(400,400);
         Bot.terrain=land;
-        armyBlue = new Army("Blue", optionArmySize, Color.blue);
-        armyRed = new Army("Red", optionArmySize, Color.red);
+        armyBlue = new Army("Blue", ARMY_SIZE, Color.blue);
+        armyRed = new Army("Red", ARMY_SIZE, Color.red);
+        
+        armyBlue.setTargets(armyRed);
+        armyRed.setTargets(armyBlue);
     }
 
     @Override
     public void update(GameContainer gc, int i) throws SlickException {
-        armyBlue.execute(armyRed);
-        armyRed.execute(armyBlue);
+        armyBlue.execute();
+        repairStation.doRepair(armyRed);
+        armyRed.execute();
+        repairStation.doRepair(armyBlue);
+        
         
         if (Mouse.isButtonDown(0)) {
             
@@ -72,6 +69,7 @@ public class BotsGame extends BasicGame
     {
         g.setDrawMode(0);
         land.render(0,0);
+        repairStation.draw(g);
         armyBlue.drawArmy(g);
         armyRed.drawArmy(g);
     }
@@ -83,7 +81,7 @@ public class BotsGame extends BasicGame
         {
             AppGameContainer appgc = new AppGameContainer(new BotsGame("Bots"));
             appgc.setDisplayMode(WINDOW_WIDTH, WINDOW_HEIGHT, false);
-            appgc.setAlwaysRender(false);
+            appgc.setAlwaysRender(true);
             appgc.setVSync(true); //включаем вертикальную синхронизацию
             appgc.setMinimumLogicUpdateInterval(TIMER);
 

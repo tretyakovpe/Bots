@@ -26,13 +26,13 @@ import org.newdawn.slick.SpriteSheet;
         }
         public void dieselEngine() throws SlickException{
             this.name = "Дизель-генератор";
-            this.power = 20;
+            this.power = 10;
             this.durability = 30;
             sheet = new SpriteSheet("/assets/images/diesel.png",32,32); //спрайт игрока
         }
         public void solarPlate() throws SlickException{
             this.name = "Солнечная батарея";
-            this.power = 10;
+            this.power = 3;
             this.durability = 10;
             sheet = new SpriteSheet("/assets/images/diesel.png",32,32); //спрайт игрока
         }

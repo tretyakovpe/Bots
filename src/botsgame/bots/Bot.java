@@ -11,7 +11,6 @@ import org.newdawn.slick.util.pathfinding.Mover;
 import org.newdawn.slick.util.pathfinding.Path;
 import org.newdawn.slick.util.pathfinding.TileBasedMap;
 
-
 /**
  *
  * @author pavel.tretyakov
@@ -29,9 +28,9 @@ public class Bot extends Obstacles implements Mover{
     public String name;
     public Color flagColor;
     
-    private SpriteSheet flagSheet;
+    private final SpriteSheet flagSheet;
     public Image flagImage;
-    private Image[] flags = new Image[4];
+    private final Image[] flags = new Image[4];
 
     public Body body = new Body();
     public Weapon weapon = new Weapon();
@@ -75,8 +74,8 @@ public class Bot extends Obstacles implements Mover{
         super();
         random=new Random();
         this.pathFinder = new AStarPathFinder((TileBasedMap) terrain, 60, false);
-        int x = 0;//random.nextInt(3);
-        int y = 0;//random.nextInt(3);
+        int x = 12;//random.nextInt(3);
+        int y = 12;//random.nextInt(3);
         while (terrain.blocked(pathFinder, Math.round(x/CELL_SIZE), Math.round(y/CELL_SIZE))==true)
         {
             x = Math.round(random.nextInt(800)/32)*32;
@@ -211,7 +210,7 @@ public class Bot extends Obstacles implements Mover{
         //projectile = new Projectile(this.posX, this.posY, this.target.posX, this.target.posY, this.weapon.speed, this.weapon.damage);
 //        System.out.println(this.name+" стреляет в "+this.target.name);
         this.target.doDamage(this.weapon.damage);
-        this.reloading=Math.round((float)30/(float)this.weapon.speed);
+        this.reloading=Math.round((float)100/(float)this.weapon.speed);
         if(this.target.currentHealth<=0)
         {
 //            System.out.println(this.name+" убивает "+this.target.name);
@@ -238,7 +237,7 @@ public class Bot extends Obstacles implements Mover{
     {
         if(this.reloading>0)
         {
-            this.reloading-=power.power;
+            this.reloading-=this.power.power;
             if(this.reloading<0)
             {
                 this.reloading=0;
@@ -331,7 +330,13 @@ public class Bot extends Obstacles implements Mover{
             case 6: 
                 break;
         }
-        
+        g.setColor(Color.black);
+        g.fillRect(x, y+33, 32, 5);
+        g.setColor(Color.red);
+        g.fillRect(x+1, y+34, 30, 3);
+        g.setColor(Color.green);
+        g.fillRect(x+1, y+34, (int) 30f*this.currentHealth/this.maxHealth, 3);
+//        g.drawString(String.valueOf(this.currentHealth), x+6, y+33);
     }
     
 }
