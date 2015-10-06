@@ -16,8 +16,6 @@ public abstract class Obstacles {
     
     public float posX;
     public float posY;
-    public float nextPosX;
-    public float nextPosY;
     public int maxHealth;
     public int currentHealth;
     

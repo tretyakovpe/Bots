@@ -15,7 +15,7 @@ import org.newdawn.slick.SlickException;
 public class Player extends Bot {
 
     public Player(String name, Color color, String flagColor) throws SlickException {
-        super(name, color, flagColor);
+        super(name, color, flagColor, true);
     }
     
 }

@@ -5,6 +5,11 @@
  */
 package botsgame;
 
+import static botsgame.Constants.*;
+import java.util.ArrayList;
+import java.util.List;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 import org.newdawn.slick.util.pathfinding.PathFindingContext;
@@ -15,15 +20,51 @@ import org.newdawn.slick.util.pathfinding.TileBasedMap;
  * @author pavel.tretyakov
  */
 public class Landscape extends TiledMap implements TileBasedMap{
-    private final int obstacles;
-    private final int units;
 
+    public static class Wall {
+       public float x;
+       public float y;
+       public float w;
+       public float h;
+
+       public Wall(float x, float y, float w, float h) {
+                this.x = x;
+                this.y = y;
+                this.w = w;
+                this.h = h;
+        }
+    }
+
+    private final int obstacles;
+    public List<Wall> walls;
+    
     public Landscape(String ref) throws SlickException {
         super(ref);
+        this.walls = new ArrayList();
         this.obstacles = 1;
-        this.units = 2;
     }
-            
+
+    public void findWalls(){
+        for(int y=0; y<WORLD_SIZE; y++)
+        {
+            for(int x=0; x<WORLD_SIZE; x++)
+            {
+                if(this.getTileId(x, y, 1)>0)
+                {
+                    walls.add(new Wall(x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE, CELL_SIZE));
+                }
+            }
+        }
+    }
+         
+    public void render(Graphics g){
+        g.setColor(new Color(255,255,255,128));
+        for(Wall w: walls)
+        {
+            g.fillRect(w.x, w.y, w.w, w.h);
+        }
+    }
+    
     @Override
     public int getWidthInTiles() {
         return this.getWidth();

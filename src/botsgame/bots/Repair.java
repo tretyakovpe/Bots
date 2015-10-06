@@ -13,7 +13,7 @@ import org.newdawn.slick.Graphics;
  * @author pavel.tretyakov
  */
 public class Repair extends Obstacles {
-    private float repairRange = 92f;
+    private float repairRange = 128f;
     private int repairPower = 1;
     
     public Repair(float x, float y) {
@@ -28,7 +28,7 @@ public class Repair extends Obstacles {
             float Y1 = bot.posY+16;
             float X = this.posX+16;
             float Y = this.posY+16;
-            float distance = Math.round(Math.sqrt((X1-X)*(X1-X)+(Y1-Y)*(Y1-Y)));
+            float distance = (float)Math.sqrt((X1-X)*(X1-X)+(Y1-Y)*(Y1-Y));
             boolean damaged=false;
             if (bot.currentHealth < bot.maxHealth)
             {
@@ -45,7 +45,7 @@ public class Repair extends Obstacles {
         Color c = Color.yellow;
         c.a = 0.5f;
         g.setColor(c);
-        g.fillOval(posX+16-repairRange/2, posY+16-repairRange/2, repairRange, repairRange);
+        g.fillOval(posX-repairRange/2, posY-repairRange/2, repairRange, repairRange);
         g.setColor(Color.green);
         g.fillOval(posX, posY, 32, 32);
     }

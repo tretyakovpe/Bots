@@ -14,28 +14,28 @@ import org.newdawn.slick.SlickException;
  */
     public class Weapon extends Equipment{
         public int speed;
-        public int range;
+        public float range;
         public int damage;
 
         public void cannon() throws SlickException{
             this.name = "Пушка";
             this.speed = 3;
-            this.range = 150;
-            this.damage = 20;
+            this.range = 200f;
+            this.damage = 15;
             image = new Image("/assets/images/cannon.png");
         }
         public void laser() throws SlickException{
             this.name = "Лазер";
             this.speed = 5;
-            this.range = 300;
+            this.range = 300f;
             this.damage = 5;
             image = new Image("/assets/images/laser.png");
         }
         public void plasma() throws SlickException{
             this.name = "Плазма";
             this.speed = 1;
-            this.range = 100;
-            this.damage = 40;
+            this.range = 100f;
+            this.damage = 30;
             image = new Image("/assets/images/plasma.png");
         }
     }

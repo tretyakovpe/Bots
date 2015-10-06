@@ -2,6 +2,7 @@ package botsgame.bots;
 
 import static botsgame.Constants.*;
 import botsgame.Landscape;
+import botsgame.Landscape.Wall;
 import botsgame.equipment.*;
 
 import java.util.Random;
@@ -37,8 +38,7 @@ public class Bot extends Obstacles implements Mover{
     public Power power = new Power();
     public Comp comp = new Comp();
 
-    public Bot target;
-    public int fireDistance;
+    public float fireDistance;
     public int targetDistance;
     
     public float botDirection; //направление переда бота
@@ -50,30 +50,27 @@ public class Bot extends Obstacles implements Mover{
     
     private final Random random;
     
-    private float stepX, stepY = 0;
-
-    protected int respawnX;
-    protected int respawnY;
-
-    
-    /**
-     *режим работы бота
-     * 
-     * 0-мертв
-     * 1-поиск цели
-     * 2-прицеливание
-     * 3-движение к target
-     * 4-стрельба
-     * 5-поиск цели
-     * 6-поворачивание
-     */
     protected int botMode;
 
-    public Bot(String name, Color color, String flagColor) throws SlickException
+    private boolean logged;
+    private PointF point;
+    public void setLogging(boolean flag){
+        this.logged=flag;
+    }
+    
+    private void printLog(String string){
+        if(logged==true)
+        {
+            System.out.println(string);
+        }
+    }
+    
+
+    public Bot(String name, Color color, String flagColor, boolean logged) throws SlickException
     {
         super();
         random=new Random();
-        this.pathFinder = new AStarPathFinder((TileBasedMap) terrain, 60, false);
+        this.pathFinder = new AStarPathFinder((TileBasedMap) terrain, 80, false);
         int x = 12;//random.nextInt(3);
         int y = 12;//random.nextInt(3);
         while (terrain.blocked(pathFinder, Math.round(x/CELL_SIZE), Math.round(y/CELL_SIZE))==true)
@@ -97,140 +94,125 @@ public class Bot extends Obstacles implements Mover{
         this.botMode = 1;
         this.posX = x;
         this.posY = y;
-        this.nextPosX = x;
-        this.nextPosY = y;
-        this.target = null;
-        this.targetDistance = 99999;
+//        this.targetX = 0;
+//        this.targetY = 0;
+        this.targetDistance = 888888;
         this.botDirection=0;
         this.stepDirection=0;
         this.targetDirection=0;
+        this.point = new PointF(0,0);
         setEquipment();
         super.maxHealth = this.body.durability+this.power.durability;
         super.currentHealth=super.maxHealth;
-//        System.out.println("Появился "+this.name+" в "+this.posX+"-"+this.posY);
-    }
-
-    protected void look()
-    {
-        int radius = (int)Math.round(comp.viewDistance/32);
-        int x = Math.round(posX/CELL_SIZE);
-        int y = Math.round(posY/CELL_SIZE);
-        int tileId;
-        for(int i=1; i<radius; i++)
-        {
-
-        }
-        
+        printLog("Появился "+this.name+" в "+this.posX+"-"+this.posY);
     }
     
-    protected void see(Army enemies){
-        for(Bot enemyBot: enemies.bots)
-        {
+    protected void look(Bot enemyBot)
+    {
+        if(enemyBot.botMode!=0){
             float X1 = enemyBot.posX;
             float Y1 = enemyBot.posY;
             float X = this.posX;
             float Y = this.posY;
-//            System.out.println(this.name+" видит "+enemyBot.name);
-            fireDistance = (int)Math.round(Math.sqrt((X1-X)*(X1-X)+(Y1-Y)*(Y1-Y)));
+            enemyBot.botMode=1;
             targetDirection = (float)(180/Math.PI)*(float)Math.atan2((Y1-Y),(X1-X));
-//            System.out.println(this.name+" от "+enemyBot.name+" на расстоянии "+fireDistance);
-            this.weapon.image.setRotation(targetDirection);
-            if(this.weapon.range>=fireDistance)
+            point = rayCast(X,Y,X1,Y1);
+            if(point.x>X1 && point.x<=X1+32 && point.y>Y1 && point.y <= Y1+32)
             {
-                target=enemyBot;
-                botMode=2;
-            }
-            else
-            {
-                //Вычисляем дистанцию до бота, если она меньше предыдущей, выбираем его в качестве цели.
-                path = pathFinder.findPath(this, Math.round(X/CELL_SIZE), Math.round(Y/CELL_SIZE), Math.round(X1/CELL_SIZE), Math.round(Y1/CELL_SIZE));
-
-                if (path!=null)
+                fireDistance = (float)Math.sqrt((X1-X)*(X1-X)+(Y1-Y)*(Y1-Y));
+                if(fireDistance<weapon.range)
                 {
-                    nextPosX = path.getX(1)*CELL_SIZE;
-                    nextPosY = path.getY(1)*CELL_SIZE;
-                    
-                    stepX=(nextPosX-posX)/body.speed; //знаменатель определяет количество кадров на тайл карты. Обязательно четное
-                    stepY=(nextPosY-posY)/body.speed;
-                    
-                    int distance = path.getLength();
-                    if(distance <= this.targetDistance)
-                    {
-                        target=enemyBot;
-//                        System.out.println(this.name+" выбрал целью "+enemyBot.name+" в "+X1+"-"+Y1);
-                        targetDistance = distance;
-                        if(nextPosX>posX) {stepDirection=90; this.body.image=this.body.imageBody[1];this.flagImage=flags[1];}
-                        if(nextPosX<posX) {stepDirection=270; this.body.image=this.body.imageBody[3];this.flagImage=flags[3];}
-                        if(nextPosY>posY) {stepDirection=180; this.body.image=this.body.imageBody[2];this.flagImage=flags[2];}
-                        if(nextPosY<posY) {stepDirection=0; this.body.image=this.body.imageBody[0];this.flagImage=flags[0];}
-                        
-                        //Нужно повернуться?
-//                        System.out.println(this.name+" смотрит на "+botDirection+", шаг на "+stepDirection);
-                        if(botDirection!=stepDirection)
-                        {
-                            botMode=6; //поворачиваемся
-                        }
-                        else
-                        {
-                            terrain.setTileId((int)posX/CELL_SIZE, (int)posY/CELL_SIZE, 2, 0);
-                            botMode=3; //движемся
-                        }
-                    }
+                    shoot(enemyBot);
+                    return;
                 }
             }
+
+            float t = currentHealth/maxHealth*100f;
+            if(t<=50)
+            {
+                X1=400;
+                Y1=400;
+            }
+            
+            //дистанция пути
+            path = pathFinder.findPath(this, Math.round(X/CELL_SIZE), Math.round(Y/CELL_SIZE), Math.round(X1/CELL_SIZE), Math.round(Y1/CELL_SIZE));
+            if(path!=null)
+            {
+                float nextPosX = path.getX(1)*CELL_SIZE;
+                float nextPosY = path.getY(1)*CELL_SIZE;
+
+                float stepX=(nextPosX-posX)/body.speed; //знаменатель определяет количество кадров на тайл карты. Обязательно четное
+                float stepY=(nextPosY-posY)/body.speed;
+                
+                stepDirection = (float)(180/Math.PI)*(float)Math.atan2((nextPosY-Y),(nextPosX-X));
+                posX+=stepX;
+                posY+=stepY;
+            }
         }
     }
 
-    protected void aim(){
-        //Если зарядился, то можно стрелять
-//        System.out.println(this.name+" целится в "+this.target.name);
-        if(this.reloading==0)
-        {
-            this.botMode = 4;
+        class PointF {
+                public float x;
+                public float y;
+               
+                public PointF(float x, float y) {
+                        this.x = x;
+                        this.y = y;
+                }
+               
         }
-        else
-        {
-            this.botMode = 1;
+        
+        public PointF rayCast(float startx, float starty, float endX, float endY) {
+            float dx = startx+16;
+            float dy = starty+16;
+            float diffx = -(startx-endX)/100;
+            float diffy = -(starty-endY)/100;
+//            boolean dox = true;
+//            for (Wall w : terrain.walls) 
+//            {
+//                if (dx > w.x && dx < w.x + w.w && dy > w.y && dy < w.y + w.h) 
+//                {
+//                        dox = false;
+//                        break;
+//                }
+//            }
+//            if (dox) {
+                while (true) 
+                {
+                    dx += diffx;
+                    dy += diffy;
+                    boolean hit = false;
+                    for (Wall w : terrain.walls) {
+                        if (dx > w.x && dx < w.x + w.w && dy > w.y && dy < w.y + w.h) {
+                            hit = true;
+                            break;
+                        }
+                    }
+                    if (hit) break;
+                    if (dx >= endX && dx <= endX + 32 && dy >= endY && dy <= endY + 32) 
+                    {
+                        break;
+                    }
+                    if (dx > (float)WINDOW_WIDTH) break;
+                    if (dx < 0) break;
+                    if (dy > (float)WINDOW_HEIGHT) break;
+                    if (dy < 0) break;
+                }
+//                g.drawLine(lastx, lasty, dx, dy);
+//            }
+            return new PointF(dx, dy);
         }
-    }
-    
-    protected void move(){
-        posX+=stepX;
-        posY+=stepY;
-        if(posX == nextPosX && posY == nextPosY)
+
+    protected void shoot(Bot target){
+        target.doDamage(this.weapon.damage);
+        target.botMode=2;
+        this.reloading=100/this.weapon.speed;
+        if(target.currentHealth<=0)
         {
-            terrain.setTileId((int)posX/CELL_SIZE, (int)posY/CELL_SIZE, 2, 30);
+            target.botMode=0;
             botMode=1;
         }
-    }
-
-    protected void shoot(){
-        //Это будут пули. пока не используется
-        //Projectile projectile;
-        //projectile = new Projectile(this.posX, this.posY, this.target.posX, this.target.posY, this.weapon.speed, this.weapon.damage);
-//        System.out.println(this.name+" стреляет в "+this.target.name);
-        this.target.doDamage(this.weapon.damage);
-        this.reloading=Math.round((float)100/(float)this.weapon.speed);
-        if(this.target.currentHealth<=0)
-        {
-//            System.out.println(this.name+" убивает "+this.target.name);
-            this.target.botMode=0;
-        }
         this.targetDistance=99999;
-        this.botMode=1;
-
-    }
-    
-    protected void die(){
-//        System.out.println(this.name+" УМЕР");
-    }
-    
-    protected void rotate(){
-        float angleDelta;
-        angleDelta=stepDirection-botDirection;
-//        System.out.println(this.name+" смотрит на "+botDirection+", поворачивается на "+angleDelta+" до "+stepDirection);
-        botDirection+=Math.round(angleDelta);
-        botMode=1;
     }
     
     protected void doReload()
@@ -242,7 +224,6 @@ public class Bot extends Obstacles implements Mover{
             {
                 this.reloading=0;
             }
-//            System.out.println(this.name+" осталось заряжаться "+this.reloading);
         }
     }
     
@@ -306,8 +287,14 @@ public class Bot extends Obstacles implements Mover{
     {
         float x=posX;
         float y=posY;
+        g.setColor(flagColor);
+        g.drawLine(x+16,y+16,point.x, point.y);
+        g.drawString(name, x, y-13);
+        
+        body.image.setRotation(stepDirection);
         body.image.draw(x, y);
         flagImage.draw(x, y);
+        weapon.image.setRotation(targetDirection);
         weapon.image.draw(x, y);
         switch (botMode)
         {
@@ -316,18 +303,8 @@ public class Bot extends Obstacles implements Mover{
                 break;
             case 1:
                 break;
-            case 2: 
-                break;
-            case 3:
-                break;
-            case 4: 
-                g.setColor(flagColor);
-                g.drawLine(x+16, y+16, target.posX+16,  target.posY+16);
-                hitAnimation.draw(target.posX,  target.posY);
-                break;
-            case 5: 
-                break;
-            case 6: 
+            case 2:
+                g.drawAnimation(hitAnimation, x, y);
                 break;
         }
         g.setColor(Color.black);
@@ -336,7 +313,10 @@ public class Bot extends Obstacles implements Mover{
         g.fillRect(x+1, y+34, 30, 3);
         g.setColor(Color.green);
         g.fillRect(x+1, y+34, (int) 30f*this.currentHealth/this.maxHealth, 3);
-//        g.drawString(String.valueOf(this.currentHealth), x+6, y+33);
+        
+        g.fillOval(x, y, 32, 32, reloading);
+        
+//        g.drawLine(x, y, targetX, targetY);
     }
     
 }

@@ -28,6 +28,7 @@ public class BotsGame extends BasicGame
     @Override
     public void init(GameContainer gc) throws SlickException {
         land = new Landscape("/assets/maps/map1.tmx");
+        land.findWalls();
         repairStation = new Repair(400,400);
         Bot.terrain=land;
         armyBlue = new Army("Blue", ARMY_SIZE, Color.blue);
@@ -35,14 +36,19 @@ public class BotsGame extends BasicGame
         
         armyBlue.setTargets(armyRed);
         armyRed.setTargets(armyBlue);
+        
+        armyBlue.setLogging(true);
+        armyRed.setLogging(true);
+        
     }
 
     @Override
     public void update(GameContainer gc, int i) throws SlickException {
+        
         armyBlue.execute();
-        repairStation.doRepair(armyRed);
-        armyRed.execute();
         repairStation.doRepair(armyBlue);
+        armyRed.execute();
+        repairStation.doRepair(armyRed);
         
         
         if (Mouse.isButtonDown(0)) {
@@ -67,8 +73,9 @@ public class BotsGame extends BasicGame
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException
     {
-        g.setDrawMode(0);
+        g.setDrawMode(1);
         land.render(0,0);
+        land.render(g);
         repairStation.draw(g);
         armyBlue.drawArmy(g);
         armyRed.drawArmy(g);

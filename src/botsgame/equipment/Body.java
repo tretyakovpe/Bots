@@ -22,7 +22,7 @@ import org.newdawn.slick.SpriteSheet;
         
         public void truck() throws SlickException{
                 this.name = "Гусеницы";
-                this.durability = 80;
+                this.durability = 120;
                 this.speed = 16f;
                 
                 sheet = new SpriteSheet("/assets/images/trucks.png",32,32); //спрайт игрока
@@ -30,29 +30,29 @@ import org.newdawn.slick.SpriteSheet;
                 {
                     imageBody[i]=sheet.getSprite(i,0);
                 }
-                this.image = this.imageBody[0];
+                this.image = this.imageBody[1];
                 
         }
         public void wheel() throws SlickException{
                 this.name = "Колеса";
-                this.durability = 50;
-                this.speed = 4f;
+                this.durability = 70;
+                this.speed = 12f;
                 sheet = new SpriteSheet("/assets/images/wheels.png",32,32); //спрайт игрока
                 for(int i=0; i<4; i++)
                 {
                     imageBody[i]=sheet.getSprite(i,0);
                 }
-                this.image = this.imageBody[0];
+                this.image = this.imageBody[1];
         }
         public void antigrav() throws SlickException{
                 this.name = "Антигравы";
-                this.durability = 30;
-                this.speed = 2f;
+                this.durability = 50;
+                this.speed = 6f;
                 sheet = new SpriteSheet("/assets/images/antigrav.png",32,32); //спрайт игрока
                 for(int i=0; i<4; i++)
                 {
                     imageBody[i]=sheet.getSprite(i,0);
                 }
-                this.image = this.imageBody[0];
+                this.image = this.imageBody[1];
         }
     }

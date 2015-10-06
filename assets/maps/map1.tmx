@@ -10,12 +10,7 @@
  </layer>
  <layer name="obstacle" width="25" height="25">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC81Wyw6DMAzL1tO0E4Pd4P9/c1QiUuY5acpDWqVIQFzcxk5hEpHXhfFe4ynXjseJHLc1SoOjYu4kSiOvsTjrtRz1epLfeo5bfpDvGiPWqztyZOvGsN78LAfWuu5pBIzORyxyzMK10BzTVHVaNgzq0tIDtdB7u9ZBfA0ZxxE9Mlg2L/K81rUAPvJ0j1e0PuhXVm+L6eHw8p7fdM92T+gV7Hfrt5YuuDfW05iLNGT67TkTo55iZ1aLo+UTq73Ww+v/aM2Zsy96T69vep79Ewfze/ZZluOMkeFAb7Hz6yiH9dae/xj2XWL9MJPrbNQ5H4kJ4uLECQAA
-  </data>
- </layer>
- <layer name="units" width="25" height="25">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGAWjYBQMRcBNY/M5gVgGiJloaIcgEAvR0PxRMApGwSgYzgAAWXzMsMQJAAA=
+   H4sIAAAAAAAACxNhYGAQoiEWBWJuBtoCziFihxId7CAE8NmhhIZpZQc1ADl2oPsPG6bUDlLBQNtBLTBY7SA1DKnpD1x2D5Qd5KYnetmBTS8uO4jNw9jsIcYOSgC17SDWn4M1D45kO2SAmImGWBaIAWPnTdzECQAA
   </data>
  </layer>
 </map>

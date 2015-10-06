@@ -6,6 +6,11 @@
 package botsgame.bots;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -14,58 +19,70 @@ import org.newdawn.slick.SlickException;
  *
  * @author pavel.tretyakov
  */
-public class Army implements Runnable {
-    public ArrayList<Bot> bots;  //список ботов команды
+public class Army{
+    public Set<Bot> bots;  //список ботов команды
+    private Iterator<Bot> iter;
     private ArrayList<Bot> targets; //список обнаруженных целей
-    private Army enemies = null; //список обнаруженных целей
+    private Army enemies; //список вражеских ботов
     public String teamName;
     private int botNum = 0; //для сквозной нумерации ботов, 
     private final Color flagColor;
+    private boolean logged;
 
     public Army(String teamName, int Count, Color flagColor) throws SlickException {
-        this.bots = new ArrayList();
+        this.bots = Collections.synchronizedSet(new HashSet());
         this.teamName=teamName;
         this.flagColor=flagColor;
         for(int i=0; i<Count; i++)
         {
             botNum++;
-            bots.add(new Bot(this.teamName+" Bot-"+botNum, this.flagColor, this.teamName));
+            bots.add(new Bot(this.teamName+botNum, this.flagColor, this.teamName, logged));
         }
     }
 
+    public void setLogging(boolean flag){
+        logged=flag;
+    }
+    
     public void setTargets(Army enemies){
         this.enemies = enemies;
+    }
+    
+    private void addBot(Bot bot){
+        botNum++;
+        bot.setLogging(logged);
+        bots.add(bot);
+        enemies.setTargets(this); 
+    }
+    
+    private void removeBot(Bot bot){
+//        bots.remove(bot);
+        this.iter = bots.iterator();
+        while(iter.hasNext())
+        {
+            if(iter.next()==bot)
+            {
+                iter.remove();
+            }
+        }
+        enemies.setTargets(this); 
     }
     
     public void execute() throws SlickException
     {
         for(Bot bot : bots)
         {
-            bot.doReload();
-            switch (bot.botMode)
+            if (bot.botMode==0)
             {
-                case 0: //смерть
-                    bot.die();
-                    botNum++;
-                    bots.set(bots.indexOf(bot), new Bot(this.teamName+"Bot-"+botNum, this.flagColor,  this.teamName));
-                    break;
-                case 1: //просмотр целей
-                    bot.see(enemies);
-                    break;
-                case 2: //прицеливание
-                    bot.aim();
-                    break;
-                case 3: //движение
-                    bot.move();
-                    break;
-                case 4: //стрельба
-                    bot.shoot();
-                    break;
-                case 5: //поиск целей, патрулирование
-                    break;
-                case 6: //поворот
-                    bot.rotate();
-                    break;
+                addBot(new Bot(this.teamName+botNum, this.flagColor, this.teamName, logged));
+                removeBot(bot);
+                break;
+            }
+            iter = enemies.bots.iterator();
+            bot.doReload();
+            while(iter.hasNext())
+            {
+                bot.look(iter.next());
             }
         }
     }
@@ -76,10 +93,4 @@ public class Army implements Runnable {
             bot.drawBot(g);        
         }        
     }
-
-    @Override
-    public void run() {
-
-    }
-
 }
