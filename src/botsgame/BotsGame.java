@@ -74,11 +74,14 @@ public class BotsGame extends BasicGame
     public void render(GameContainer gc, Graphics g) throws SlickException
     {
         g.setDrawMode(1);
-        land.render(0,0);
+        land.render(0,0,0);
+        land.render(0,0,1);
         land.render(g);
         repairStation.draw(g);
         armyBlue.drawArmy(g);
         armyRed.drawArmy(g);
+        land.render(0,0,2);
+
     }
 
 

@@ -314,7 +314,7 @@ public class Bot extends Obstacles implements Mover{
         g.setColor(Color.green);
         g.fillRect(x+1, y+34, (int) 30f*this.currentHealth/this.maxHealth, 3);
         
-        g.fillOval(x, y, 32, 32, reloading);
+//        g.fillOval(x, y, 32, 32, reloading);
         
 //        g.drawLine(x, y, targetX, targetY);
     }
