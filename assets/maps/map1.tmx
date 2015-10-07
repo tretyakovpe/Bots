@@ -10,12 +10,12 @@
  </layer>
  <layer name="obstacle" width="25" height="25">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC7vCwMBwlYb4GhBvZKAt2DkAdiwC4qUE8AoK7QCxGYFYEUo7omGQ2Ekq2bEZiLdA8VY0fIkKdhwC4sNAfIUBezr5RAU7QGKPSTSHFDsOMpAe3qTa8YOB9LAg1Q5agFE7yLMDWzlCqNxQJdEOULpVRMLklBuE7LjIgFl2kFpuELLjIwNm+UGNvDIc09WoHYTtOEhjO0B5DFu+wIa34VCHSxwmB6pTAS8DwzrECQAA
+   H4sIAAAAAAAAC+2VwQrCMAxA46fs4If4qQqCHoc68Fi96HEyBUVP3rzpyaMJRChZY9u5IgwDj44u5GWQdhUA7BNyQHJIG8sfOEbI2MNE1BgiPWQa6Mg5P+N1IKC9k6hxtmrFOGbInFkwBbJBbsiF82k1/LyNcKyQNVJBfUaMo1bJPRwjHLR3VfJL9tvxZP8j0OHqU9bTamkhHdSn9s1NQzqa9BnrSBFddLjuEXlvyOhHOmhuMws675/mODRsB82tfXcQu5Ydd6jfH23McRfn6u/wO4w367ugM+Y6Fy4KJU/bf7+jf9oL3hBCbcQJAAA=
   </data>
  </layer>
  <layer name="decor" width="25" height="25">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGAWDHewdaAeMglFAQ8ACxKxAzEZlc8uQ2CJALArEYlS2Ax2o0th8SoAgELcMtCNGwSgYBVQFAH9AGa7ECQAA
+   H4sIAAAAAAAAC2NgGAVDHdxGwiBwbgDdMgpGAamABYhZgZiNhnaIALEoEIvR0A4QUKWx+ZSCloF2wCgYBaOAqgAAWo3Ui8QJAAA=
   </data>
  </layer>
 </map>

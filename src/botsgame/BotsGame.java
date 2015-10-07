@@ -76,7 +76,7 @@ public class BotsGame extends BasicGame
         g.setDrawMode(1);
         land.render(0,0,0);
         land.render(0,0,1);
-        land.render(g);
+//        land.render(g);
         repairStation.draw(g);
         armyBlue.drawArmy(g);
         armyRed.drawArmy(g);
