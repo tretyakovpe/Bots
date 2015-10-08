@@ -205,8 +205,8 @@ public class Bot extends Obstacles implements Mover{
 
     protected void shoot(Bot target){
         target.doDamage(this.weapon.damage);
-        target.botMode=2;
-        this.reloading=100/this.weapon.speed;
+        target.botMode = 2;
+        this.reloading = 10000/this.weapon.speed;
         if(target.currentHealth<=0)
         {
             target.botMode=0;
@@ -219,7 +219,7 @@ public class Bot extends Obstacles implements Mover{
     {
         if(this.reloading>0)
         {
-            this.reloading-=this.power.power;
+            this.reloading--;
             if(this.reloading<0)
             {
                 this.reloading=0;

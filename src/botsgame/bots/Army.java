@@ -79,7 +79,6 @@ public class Army{
                 break;
             }
             iter = enemies.bots.iterator();
-            bot.doReload();
             while(iter.hasNext())
             {
                 bot.look(iter.next());
