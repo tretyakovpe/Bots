@@ -25,17 +25,17 @@ import org.newdawn.slick.SlickException;
             image = new Image("/assets/images/cannon.png");
         }
         public void laser() throws SlickException{
-            this.name = "Лазер";
+            this.name = "Вулкан";
             this.speed = 5;
             this.range = 300f;
             this.damage = 5;
-            image = new Image("/assets/images/laser.png");
+            image = new Image("/assets/images/volcano.png");
         }
         public void plasma() throws SlickException{
-            this.name = "Плазма";
+            this.name = "Ракеты";
             this.speed = 1;
             this.range = 100f;
             this.damage = 30;
-            image = new Image("/assets/images/plasma.png");
+            image = new Image("/assets/images/missiles.png");
         }
     }

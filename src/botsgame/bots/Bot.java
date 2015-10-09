@@ -46,7 +46,6 @@ public class Bot extends Obstacles implements Mover{
     public float targetDirection; //направление на цель
     
     private int reloading; //перезарядка оружия
-    public float t; //перемещение из клетки в клетку
     
     private final Random random;
     
@@ -119,11 +118,14 @@ public class Bot extends Obstacles implements Mover{
             point = rayCast(X,Y,X1,Y1);
             if(point.x>X1 && point.x<=X1+32 && point.y>Y1 && point.y <= Y1+32)
             {
-                fireDistance = (float)Math.sqrt((X1-X)*(X1-X)+(Y1-Y)*(Y1-Y));
-                if(fireDistance<weapon.range)
+                if(this.reloading == 0)
                 {
-                    shoot(enemyBot);
-                    return;
+                    fireDistance = (float)Math.sqrt((X1-X)*(X1-X)+(Y1-Y)*(Y1-Y));
+                    if(fireDistance<weapon.range)
+                    {
+                            shoot(enemyBot);
+                            return;
+                    }
                 }
             }
 
@@ -151,62 +153,50 @@ public class Bot extends Obstacles implements Mover{
         }
     }
 
-        class PointF {
-                public float x;
-                public float y;
-               
-                public PointF(float x, float y) {
-                        this.x = x;
-                        this.y = y;
-                }
-               
-        }
+    class PointF {
+            public float x;
+            public float y;
+
+            public PointF(float x, float y) {
+                    this.x = x;
+                    this.y = y;
+            }
+
+    }
         
-        public PointF rayCast(float startx, float starty, float endX, float endY) {
-            float dx = startx+16;
-            float dy = starty+16;
-            float diffx = -(startx-endX)/100;
-            float diffy = -(starty-endY)/100;
-//            boolean dox = true;
-//            for (Wall w : terrain.walls) 
-//            {
-//                if (dx > w.x && dx < w.x + w.w && dy > w.y && dy < w.y + w.h) 
-//                {
-//                        dox = false;
-//                        break;
-//                }
-//            }
-//            if (dox) {
-                while (true) 
-                {
-                    dx += diffx;
-                    dy += diffy;
-                    boolean hit = false;
-                    for (Wall w : terrain.walls) {
-                        if (dx > w.x && dx < w.x + w.w && dy > w.y && dy < w.y + w.h) {
-                            hit = true;
-                            break;
-                        }
-                    }
-                    if (hit) break;
-                    if (dx >= endX && dx <= endX + 32 && dy >= endY && dy <= endY + 32) 
-                    {
-                        break;
-                    }
-                    if (dx > (float)WINDOW_WIDTH) break;
-                    if (dx < 0) break;
-                    if (dy > (float)WINDOW_HEIGHT) break;
-                    if (dy < 0) break;
+    public PointF rayCast(float startx, float starty, float endX, float endY) {
+        float dx = startx+16;
+        float dy = starty+16;
+        float diffx = -(startx-endX)/100;
+        float diffy = -(starty-endY)/100;
+        while (true) 
+        {
+            dx += diffx;
+            dy += diffy;
+            boolean hit = false;
+            for (Wall w : terrain.walls) {
+                if (dx > w.x && dx < w.x + w.w && dy > w.y && dy < w.y + w.h) {
+                    hit = true;
+                    break;
                 }
-//                g.drawLine(lastx, lasty, dx, dy);
-//            }
-            return new PointF(dx, dy);
+            }
+            if (hit) break;
+            if (dx >= endX && dx <= endX + 32 && dy >= endY && dy <= endY + 32) 
+            {
+                break;
+            }
+            if (dx > (float)WINDOW_WIDTH) break;
+            if (dx < 0) break;
+            if (dy > (float)WINDOW_HEIGHT) break;
+            if (dy < 0) break;
         }
+        return new PointF(dx, dy);
+    }
 
     protected void shoot(Bot target){
         target.doDamage(this.weapon.damage);
         target.botMode = 2;
-        this.reloading = 10000/this.weapon.speed;
+        this.reloading = 100/this.weapon.speed;
         if(target.currentHealth<=0)
         {
             target.botMode=0;
@@ -219,7 +209,7 @@ public class Bot extends Obstacles implements Mover{
     {
         if(this.reloading>0)
         {
-            this.reloading--;
+            this.reloading -= power.power;
             if(this.reloading<0)
             {
                 this.reloading=0;
@@ -288,8 +278,8 @@ public class Bot extends Obstacles implements Mover{
         float x=posX;
         float y=posY;
         g.setColor(flagColor);
-        g.drawLine(x+16,y+16,point.x, point.y);
-        g.drawString(name, x, y-13);
+//        g.drawLine(x+16,y+16,point.x, point.y);
+//        g.drawString(name, x, y-13);
         
         body.image.setRotation(stepDirection);
         body.image.draw(x, y);
@@ -314,7 +304,7 @@ public class Bot extends Obstacles implements Mover{
         g.setColor(Color.green);
         g.fillRect(x+1, y+34, (int) 30f*this.currentHealth/this.maxHealth, 3);
         
-//        g.fillOval(x, y, 32, 32, reloading);
+        g.drawString(String.valueOf(reloading),x+32, y);
         
 //        g.drawLine(x, y, targetX, targetY);
     }
