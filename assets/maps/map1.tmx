@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-up" width="25" height="25" tilewidth="32" tileheight="32" nextobjectid="3">
- <tileset firstgid="1" name="tileset_by_evolina-d36bih3" tilewidth="32" tileheight="32" tilecount="256">
-  <image source="../images/tileset_by_evolina-d36bih3.png" width="512" height="512"/>
+<map version="1.0" orientation="orthogonal" renderorder="left-up" width="14" height="14" tilewidth="64" tileheight="64" nextobjectid="3">
+ <tileset firstgid="1" name="tile_set_sheet_by_danaharris" tilewidth="64" tileheight="64" tilecount="64">
+  <image source="../images/tile_set_sheet_by_danaharris.png" width="512" height="512"/>
  </tileset>
- <layer name="surface" width="25" height="25">
+ <layer name="surface" width="14" height="14">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC72W2w3FIAxDYQRGYJTsv9T9qmT5xibQx0fUKhSfxKESo7U2Poj+YiBjLuIphut1VYOqo8pAHeVthVHpRc3Pecl7YjPYo6wGzlX8x9oVu8JAnUnvGKiJ80KeY2QeZ/pB+uy9+wez+jEf8LxyO4zVHPB89EPGiodezUMG185rONfdPnB2M+HjGs6hyhjt33fuBc8O+qR6DuAo75VPgzQUoxuGmkPmx6VTZfRDBvYUxFQM17vqI5J3xVhxHCPTV4yMw/sVI5tF9c7Ataq4w3CeuG/v3pnCaGHuB5YnULvECQAA
+   H4sIAAAAAAAAC+NiYGDgGkFYBYi1oFiVBH3KSGxFOujTAWIpKB6KbtYdBHFNDgYAMN3lGhADAAA=
   </data>
  </layer>
- <layer name="obstacle" width="25" height="25">
+ <layer name="obstacle" width="14" height="14">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2VwQrCMAxA46fs4If4qQqCHoc68Fi96HEyBUVP3rzpyaMJRChZY9u5IgwDj44u5GWQdhUA7BNyQHJIG8sfOEbI2MNE1BgiPWQa6Mg5P+N1IKC9k6hxtmrFOGbInFkwBbJBbsiF82k1/LyNcKyQNVJBfUaMo1bJPRwjHLR3VfJL9tvxZP8j0OHqU9bTamkhHdSn9s1NQzqa9BnrSBFddLjuEXlvyOhHOmhuMws675/mODRsB82tfXcQu5Ydd6jfH23McRfn6u/wO4w367ugM+Y6Fy4KJU/bf7+jf9oL3hBCbcQJAAA=
+   H4sIAAAAAAAAC5NkYGCQIhFLA7EiA+lAeYjrEwFiUTL0yQCxLBn6CAFi9GFzMzH6sLl5sMQDMfo0gViLRKwNxACUr6SCEAMAAA==
   </data>
  </layer>
- <layer name="decor" width="25" height="25">
+ <layer name="decor" width="14" height="14">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGAVDHdxGwiBwbgDdMgpGAamABYhZgZiNhnaIALEoEIvR0A4QUKWx+ZSCloF2wCgYBaOAqgAAWo3Ui8QJAAA=
+   H4sIAAAAAAAAC2NgGAWjYBTAAAATmsT7EAMAAA==
   </data>
  </layer>
 </map>

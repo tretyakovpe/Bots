@@ -2,6 +2,8 @@ package botsgame;
 
 import static botsgame.Constants.*;
 import botsgame.bots.*;
+import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.lwjgl.input.Keyboard;
@@ -15,8 +17,9 @@ import org.newdawn.slick.SlickException;
 
 public class BotsGame extends BasicGame
 {
-    public Army armyBlue;
-    public Army armyRed;
+//    public Army armyBlue;
+//    public Army armyRed;
+
     public Landscape land;
     public Repair repairStation;
     
@@ -26,29 +29,38 @@ public class BotsGame extends BasicGame
     }
 
     @Override
-    public void init(GameContainer gc) throws SlickException {
-        land = new Landscape("/assets/maps/map1.tmx");
+    public void init(GameContainer gc){
+        try {
+            land = new Landscape("/assets/maps/map1.tmx");
+        } catch (SlickException ex) {
+                System.out.println("Ошибка при загрузке карты");
+        }
         land.findWalls();
-        repairStation = new Repair(400,400);
+        int repairX = 512;
+        int repairY=320;
+        repairStation = new Repair(repairX,repairY);
+        land.setTileId(repairX/CELL_SIZE, repairY/CELL_SIZE, 0, 2);
         Bot.terrain=land;
-        armyBlue = new Army("Blue", ARMY_SIZE, Color.blue);
-        armyRed = new Army("Red", ARMY_SIZE, Color.red);
         
-        armyBlue.setTargets(armyRed);
-        armyRed.setTargets(armyBlue);
-        
-        armyBlue.setLogging(true);
-        armyRed.setLogging(true);
-        
+        for(int i=0; i<ARMY_SIZE; i++)
+        {
+            Bot.allBots.add(new Bot("Bot "+i, Color.blue, "blue", true));
+        }
     }
 
     @Override
-    public void update(GameContainer gc, int i) throws SlickException {
-        
-        armyBlue.execute();
-        repairStation.doRepair(armyBlue);
-        armyRed.execute();
-        repairStation.doRepair(armyRed);
+    public void update(GameContainer gc, int i)
+    {
+        ListIterator it = Bot.allBots.listIterator();
+        while (it.hasNext())
+        {
+            Bot bot = (Bot)it.next();
+            if(bot.isDead() == false)
+            {
+                bot.execute(it);
+            }
+        }
+        repairStation.doRepair();
         
         
         if (Mouse.isButtonDown(0)) {
@@ -71,19 +83,31 @@ public class BotsGame extends BasicGame
     }
 
     @Override
-    public void render(GameContainer gc, Graphics g) throws SlickException
+    public void render(GameContainer gc, Graphics g)
     {
         g.setDrawMode(1);
         land.render(0,0,0);
         land.render(0,0,1);
 //        land.render(g);
-        repairStation.draw(g);
-        armyBlue.drawArmy(g);
-        armyRed.drawArmy(g);
+        drawBots(g);
         land.render(0,0,2);
+        repairStation.draw(g);
 
     }
 
+    private void drawBots(Graphics g)
+    {
+        Iterator it;
+        it = Bot.allBots.iterator();
+        while (it.hasNext())
+        {
+            Bot bot = (Bot)it.next();
+            if(bot.isDead() == false)
+            {
+                bot.drawBot(g);        
+            }
+        }        
+    }
 
     public static void main(String[] args)
     {

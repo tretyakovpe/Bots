@@ -5,8 +5,6 @@
  */
 package botsgame.equipment;
 
-import org.newdawn.slick.SlickException;
-
 /**
  *
  * @author pavel.tretyakov
@@ -15,17 +13,17 @@ import org.newdawn.slick.SlickException;
         public String name;
         public int power;
 
-        public void nuclearReactor() throws SlickException {
+        public void nuclearReactor(){
             this.name = "РИТЭГ";
             this.power = 5;
             this.durability = 20;
         }
-        public void dieselEngine() throws SlickException{
+        public void dieselEngine(){
             this.name = "Дизель-генератор";
             this.power = 3;
             this.durability = 30;
         }
-        public void solarPlate() throws SlickException{
+        public void solarPlate() {
             this.name = "Солнечная батарея";
             this.power = 1;
             this.durability = 10;

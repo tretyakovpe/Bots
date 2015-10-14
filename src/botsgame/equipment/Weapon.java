@@ -5,6 +5,8 @@
  */
 package botsgame.equipment;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
@@ -17,25 +19,37 @@ import org.newdawn.slick.SlickException;
         public float range;
         public int damage;
 
-        public void cannon() throws SlickException{
+        public void cannon(){
             this.name = "Пушка";
             this.speed = 3;
             this.range = 200f;
             this.damage = 15;
-            image = new Image("/assets/images/cannon.png");
+            try {
+                image = new Image("/assets/images/64x64/cannon.png");
+            } catch (SlickException ex) {
+                Logger.getLogger(Weapon.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        public void laser() throws SlickException{
+        public void laser(){
             this.name = "Вулкан";
             this.speed = 5;
             this.range = 300f;
             this.damage = 5;
-            image = new Image("/assets/images/volcano.png");
+            try {
+                image = new Image("/assets/images/64x64/volcano.png");
+            } catch (SlickException ex) {
+                Logger.getLogger(Weapon.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        public void plasma() throws SlickException{
+        public void plasma(){
             this.name = "Ракеты";
             this.speed = 1;
             this.range = 100f;
             this.damage = 30;
-            image = new Image("/assets/images/missiles.png");
+            try {
+                image = new Image("/assets/images/64x64/missiles.png");
+            } catch (SlickException ex) {
+                Logger.getLogger(Weapon.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }

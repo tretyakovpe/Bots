@@ -16,23 +16,36 @@ import org.newdawn.slick.SlickException;
 
         public float speed;
         
-        public void truck() throws SlickException{
+        public void truck(){
                 this.name = "Гусеницы";
                 this.durability = 120;
-                this.speed = 16f;
-                image = new Image("/assets/images/wheels.png");        
+                this.speed = 32f;
+            try {        
+                image = new Image("/assets/images/64x64/wheels.png");
+            } catch (SlickException ex) {
+                System.out.println("При загрузке картинки гусениц косяк");
+            }
         }
 
-        public void wheel() throws SlickException{
+        public void wheel(){
                 this.name = "Колеса";
                 this.durability = 70;
-                this.speed = 12f;
-                image = new Image("/assets/images/wheels.png");        }
+                this.speed = 32f;
+            try {
+                image = new Image("/assets/images/64x64/wheels.png");
+            } catch (SlickException ex) {
+                System.out.println("При загрузке картинки колес косяк");
+            }
+ }
 
-        public void antigrav() throws SlickException{
+        public void antigrav(){
                 this.name = "Антигравы";
                 this.durability = 50;
-                this.speed = 6f;
-                image = new Image("/assets/images/wheels.png");        
+                this.speed = 32f;
+            try {        
+                image = new Image("/assets/images/64x64/wheels.png");
+            } catch (SlickException ex) {
+                System.out.println("При загрузке картинки антигравов косяк");
+            }
         }
     }
