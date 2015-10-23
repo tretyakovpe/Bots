@@ -15,7 +15,7 @@ import org.newdawn.slick.Graphics;
  * @author pavel.tretyakov
  */
 public class Repair extends Obstacles {
-    private final int repairRange = 3;
+    private final int repairRange = 1;
     private final int repairPower = 1;
     
     public Repair(float x, float y) {
@@ -30,17 +30,17 @@ public class Repair extends Obstacles {
             Bot bot = (Bot)it.next();
             if(bot.isDead() == false)
             {
+                float X = this.posX;
+                float Y = this.posY;
                 float X1 = bot.posX+CELL_SIZE/2;
                 float Y1 = bot.posY+CELL_SIZE/2;
-                float X = this.posX+CELL_SIZE/2;
-                float Y = this.posY+CELL_SIZE/2;
                 float distance = (float)Math.sqrt((X1-X)*(X1-X)+(Y1-Y)*(Y1-Y));
                 boolean damaged=false;
                 if (bot.currentHealth < bot.maxHealth)
                 {
                     damaged=true;
                 }
-                if(damaged==true && distance<=(repairRange*CELL_SIZE))
+                if(damaged==true && distance<(repairRange*CELL_SIZE))
                 {
                     bot.currentHealth+=repairPower;
                 }
@@ -50,12 +50,13 @@ public class Repair extends Obstacles {
 
     public void draw(Graphics g) {
         float range = repairRange*CELL_SIZE;
-        float x = posX-(range/2)+CELL_SIZE/2;
-        float y = posY-(range/2)+CELL_SIZE/2;
+        float x = posX-(range*CELL_SIZE);
+        float y = posY-(range*CELL_SIZE);
         
         Color c = new Color(0.5f,0,0,0.5f);
         g.setColor(c);
-        g.fillOval(x, y, range, range);
+        g.drawArc(x, y, range*CELL_SIZE, range*CELL_SIZE, 0, 360);
+//        g.fillOval(x, y, range, range);
 //        g.setColor(Color.green);
 //        g.fillOval(posX-CELL_SIZE/2, posY-CELL_SIZE/2, CELL_SIZE, CELL_SIZE);
     }

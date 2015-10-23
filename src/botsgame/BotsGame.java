@@ -2,7 +2,9 @@ package botsgame;
 
 import static botsgame.Constants.*;
 import botsgame.bots.*;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +24,8 @@ public class BotsGame extends BasicGame
 
     public Landscape land;
     public Repair repairStation;
+    public static List<Projectile> bullets;
+
     
     public BotsGame(String gamename) throws SlickException
     {
@@ -31,7 +35,7 @@ public class BotsGame extends BasicGame
     @Override
     public void init(GameContainer gc){
         try {
-            land = new Landscape("/assets/maps/map1.tmx");
+            land = new Landscape("/assets/maps/map2.tmx");
         } catch (SlickException ex) {
                 System.out.println("Ошибка при загрузке карты");
         }
@@ -41,7 +45,7 @@ public class BotsGame extends BasicGame
         repairStation = new Repair(repairX,repairY);
         land.setTileId(repairX/CELL_SIZE, repairY/CELL_SIZE, 0, 2);
         Bot.terrain=land;
-        
+        bullets = new ArrayList();
         for(int i=0; i<ARMY_SIZE; i++)
         {
             Bot.allBots.add(new Bot("Bot "+i, Color.blue, "blue", true));
@@ -60,7 +64,15 @@ public class BotsGame extends BasicGame
                 bot.execute(it);
             }
         }
+        
         repairStation.doRepair();
+        
+        ListIterator bullIter = bullets.listIterator();
+        while (bullIter.hasNext())
+        {
+            Projectile bullet = (Projectile)bullIter.next();
+            bullet.update(bullIter);
+        }
         
         
         if (Mouse.isButtonDown(0)) {
@@ -88,11 +100,11 @@ public class BotsGame extends BasicGame
         g.setDrawMode(1);
         land.render(0,0,0);
         land.render(0,0,1);
+        land.render(0,0,2);
 //        land.render(g);
         drawBots(g);
-        land.render(0,0,2);
-        repairStation.draw(g);
-
+//        repairStation.draw(g);
+        drawBullets(g);
     }
 
     private void drawBots(Graphics g)
@@ -109,6 +121,17 @@ public class BotsGame extends BasicGame
         }        
     }
 
+    private void drawBullets(Graphics g)
+    {
+        Iterator it;
+        it = bullets.iterator();
+        while (it.hasNext())
+        {
+            Projectile bul = (Projectile)it.next();
+            bul.draw(g);        
+        }        
+    }
+
     public static void main(String[] args)
     {
         try
@@ -116,7 +139,8 @@ public class BotsGame extends BasicGame
             AppGameContainer appgc = new AppGameContainer(new BotsGame("Bots"));
             appgc.setDisplayMode(WINDOW_WIDTH, WINDOW_HEIGHT, false);
             appgc.setAlwaysRender(true);
-            appgc.setVSync(true); //включаем вертикальную синхронизацию
+            appgc.setVSync(false); //включаем вертикальную синхронизацию
+            appgc.setMaximumLogicUpdateInterval(TIMER);
             appgc.setMinimumLogicUpdateInterval(TIMER);
 
             appgc.start();

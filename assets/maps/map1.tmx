@@ -1,19 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-up" width="14" height="14" tilewidth="64" tileheight="64" nextobjectid="3">
- <tileset firstgid="1" name="tile_set_sheet_by_danaharris" tilewidth="64" tileheight="64" tilecount="64">
-  <image source="../images/tile_set_sheet_by_danaharris.png" width="512" height="512"/>
- </tileset>
- <layer name="surface" width="14" height="14">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+NiYGDgGkFYBYi1oFiVBH3KSGxFOujTAWIpKB6KbtYdBHFNDgYAMN3lGhADAAA=
-  </data>
- </layer>
- <layer name="obstacle" width="14" height="14">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC5NkYGCQIhFLA7EiA+lAeYjrEwFiUTL0yQCxLBn6CAFi9GFzMzH6sLl5sMQDMfo0gViLRKwNxACUr6SCEAMAAA==
-  </data>
- </layer>
- <layer name="decor" width="14" height="14">
+<map version="1.0" orientation="staggered" renderorder="left-up" width="14" height="14" tilewidth="32" tileheight="32" staggeraxis="y" staggerindex="even" nextobjectid="1">
+ <layer name="Слой тайлов 1" width="14" height="14">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC2NgGAWjYBTAAAATmsT7EAMAAA==
   </data>

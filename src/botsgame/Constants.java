@@ -4,8 +4,8 @@ package botsgame;
 public final class Constants 
 {
     private Constants() {}
-    public static final int ARMY_SIZE = 2;
-    public static final int TIMER=80;
+    public static final int ARMY_SIZE = 3;
+    public static final int TIMER=60;
     public static String NAME = "Assault Bots";
     public static final int WINDOW_WIDTH = 896;
     public static final int WINDOW_HEIGHT = 896;

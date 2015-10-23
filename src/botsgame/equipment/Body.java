@@ -19,7 +19,7 @@ import org.newdawn.slick.SlickException;
         public void truck(){
                 this.name = "Гусеницы";
                 this.durability = 120;
-                this.speed = 32f;
+                this.speed = 16f;
             try {        
                 image = new Image("/assets/images/64x64/wheels.png");
             } catch (SlickException ex) {
@@ -30,7 +30,7 @@ import org.newdawn.slick.SlickException;
         public void wheel(){
                 this.name = "Колеса";
                 this.durability = 70;
-                this.speed = 32f;
+                this.speed = 16f;
             try {
                 image = new Image("/assets/images/64x64/wheels.png");
             } catch (SlickException ex) {
@@ -41,7 +41,7 @@ import org.newdawn.slick.SlickException;
         public void antigrav(){
                 this.name = "Антигравы";
                 this.durability = 50;
-                this.speed = 32f;
+                this.speed = 16f;
             try {        
                 image = new Image("/assets/images/64x64/wheels.png");
             } catch (SlickException ex) {
