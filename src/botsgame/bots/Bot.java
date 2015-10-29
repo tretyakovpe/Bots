@@ -31,9 +31,6 @@ public class Bot extends Obstacles implements Mover{
 
     private static Animation explosionAnimation;
     private static SpriteSheet explosionSprite;
-    private SpriteSheet flagSheet;
-    private Image flagImage;
-    private final Image[] flags = new Image[4];
 
     protected AStarPathFinder pathFinder;
     public Path path;

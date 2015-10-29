@@ -10,11 +10,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 
 public class BotsGame extends BasicGame
 {
@@ -24,7 +26,9 @@ public class BotsGame extends BasicGame
     private Landscape land;
     private Repair repairStation;
     public static List<Projectile> bullets;
-
+    private static SpriteSheet hitSprite; 
+    public static Animation hitAnimation;
+    
     
     public BotsGame(String gamename) throws SlickException
     {
@@ -33,6 +37,12 @@ public class BotsGame extends BasicGame
 
     @Override
     public void init(GameContainer gc){
+        try {
+            hitSprite = new SpriteSheet("/assets/images/hitting.png",64,64);
+        } catch (SlickException ex) {
+            Logger.getLogger(BotsGame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        hitAnimation = new Animation(hitSprite,0,0,9,4,true,3,true);
         try {
             land = new Landscape("/assets/maps/map2.tmx");
         } catch (SlickException ex) {
@@ -147,7 +157,7 @@ public class BotsGame extends BasicGame
         }
         catch (SlickException ex)
         {
-            Logger.getLogger(BotsGame.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Случилось страшное!");
         }
     }
 }
