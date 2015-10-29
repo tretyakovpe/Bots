@@ -2,6 +2,7 @@ package botsgame;
 
 import static botsgame.Constants.*;
 import botsgame.bots.*;
+import factories.BotFactory;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -23,6 +24,7 @@ public class BotsGame extends BasicGame
 //    public Army armyBlue;
 //    public Army armyRed;
 
+    private BotFactory botFactory;
     private Landscape land;
     private Repair repairStation;
     public static List<Projectile> bullets;
@@ -43,18 +45,25 @@ public class BotsGame extends BasicGame
             Logger.getLogger(BotsGame.class.getName()).log(Level.SEVERE, null, ex);
         }
         hitAnimation = new Animation(hitSprite,0,0,9,4,true,3,true);
+        
         try {
             land = new Landscape("/assets/maps/map2.tmx");
+            land.findWalls();
         } catch (SlickException ex) {
                 System.out.println("Ошибка при загрузке карты");
         }
-        land.findWalls();
+
+        botFactory = new BotFactory();
+        
         int repairX = 512;
         int repairY=320;
         repairStation = new Repair(repairX,repairY);
         land.setTileId(repairX/CELL_SIZE, repairY/CELL_SIZE, 0, 2);
+
         Bot.terrain=land;
+
         bullets = new ArrayList();
+        
         for(int i=0; i<ARMY_SIZE; i++)
         {
             Bot.allBots.add(new Bot("Bot "+i, true));
@@ -83,6 +92,7 @@ public class BotsGame extends BasicGame
             bullet.update(bullIter);
         }
         
+        botFactory.update();
         
         if (Mouse.isButtonDown(0)) {
             
@@ -149,8 +159,8 @@ public class BotsGame extends BasicGame
             AppGameContainer appgc = new AppGameContainer(new BotsGame("Bots"));
             appgc.setDisplayMode(WINDOW_WIDTH, WINDOW_HEIGHT, false);
             appgc.setAlwaysRender(true);
-            appgc.setVSync(false); //включаем вертикальную синхронизацию
-            appgc.setMaximumLogicUpdateInterval(TIMER);
+            appgc.setVSync(true); //включаем вертикальную синхронизацию
+//            appgc.setMaximumLogicUpdateInterval(TIMER);
             appgc.setMinimumLogicUpdateInterval(TIMER);
 
             appgc.start();

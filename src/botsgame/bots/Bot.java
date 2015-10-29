@@ -154,7 +154,7 @@ public class Bot extends Obstacles implements Mover{
         {
             dead = true;
             iter.remove();
-            iter.add(new Bot(name, logged));
+//            iter.add(new Bot(name, logged));
         }
         else
         {
@@ -302,15 +302,9 @@ public class Bot extends Obstacles implements Mover{
                     break;
                 }
             }
-            if (hit) break;
-            if (dx >= endX && dx <= endX + CELL_SIZE && dy >= endY && dy <= endY + CELL_SIZE) 
-            {
-                break;
-            }
-            if (dx > (float)WINDOW_WIDTH) break;
-            if (dx < 0) break;
-            if (dy > (float)WINDOW_HEIGHT) break;
-            if (dy < 0) break;
+            if (hit) {break;}
+            if (dx >= endX && dx <= endX + CELL_SIZE && dy >= endY && dy <= endY + CELL_SIZE) {break;}
+            if (dx > WINDOW_WIDTH || dx < 0 || dy > WINDOW_HEIGHT || dy < 0) {break;}
         }
         return new PointF(dx, dy);
     }
