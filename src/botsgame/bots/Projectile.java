@@ -6,14 +6,11 @@
 package botsgame.bots;
 
 import static botsgame.Constants.CELL_SIZE;
-import static botsgame.Constants.TIMER;
 import static botsgame.Constants.WINDOW_HEIGHT;
 import static botsgame.Constants.WINDOW_WIDTH;
 import botsgame.Landscape.Wall;
-import java.util.Iterator;
 import java.util.ListIterator;
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
@@ -25,8 +22,8 @@ import org.newdawn.slick.SpriteSheet;
  * @author pavel.tretyakov
  */
 public class Projectile {
-    private static Animation hitAnimation;
-    private static SpriteSheet hitSprite; 
+    private final static Animation hitAnimation;
+    private final static SpriteSheet hitSprite; 
 
     public Bot bot;
     public float posX;
@@ -51,7 +48,8 @@ public class Projectile {
         }
     
     }
-    Projectile(Bot b, float posX, float posY, float posX0, float posY0, int i, int i0) {
+    Projectile(Bot b, float posX, float posY, float posX0, float posY0, int i, int i0) 
+    {
         this.bot = b;
         this.posX = posX;
         this.posY = posY;

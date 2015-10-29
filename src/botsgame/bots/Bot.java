@@ -77,7 +77,7 @@ public class Bot extends Obstacles implements Mover{
     }
     
 
-    public Bot(String name, Color color, String flagColor, boolean logged)
+    public Bot(String name, boolean logged)
     {
         super();
         try {
@@ -86,29 +86,13 @@ public class Bot extends Obstacles implements Mover{
         } catch (SlickException ex) {
             System.out.println("Ошибка при загрузке изображения взрыва");
         }
-        try {
-            flagSheet = new SpriteSheet("/assets/images/"+flagColor+"flag.png",32,32);
-            for(int i=0; i<4; i++)
-            {
-                flags[i]=flagSheet.getSprite(i,0);
-            }
-            this.flagImage = this.flags[0];
-        } catch (SlickException ex) {
-            System.out.println("Ошибка при загрузке изображения флага");
-        }
 
         random=new Random();
         Respawn resp = respawn(random.nextInt(4));
         int x = resp.x;
         int y = resp.y;
         this.pathFinder = new AStarPathFinder((TileBasedMap) terrain, 80, false);
-//        while (terrain.blocked(pathFinder, Math.round(x/CELL_SIZE), Math.round(y/CELL_SIZE))==true)
-//        {
-//            x = Math.round(random.nextInt(WINDOW_WIDTH)/CELL_SIZE)*CELL_SIZE;
-//            y = Math.round(random.nextInt(WINDOW_HEIGHT)/CELL_SIZE)*CELL_SIZE; 
-//        }
         this.name = name;
-        this.flagColor=color;
         this.botMode = 1;
         this.posX = x*CELL_SIZE;
         this.posY = y*CELL_SIZE;
@@ -173,7 +157,7 @@ public class Bot extends Obstacles implements Mover{
         {
             dead = true;
             iter.remove();
-            iter.add(new Bot(name, flagColor, "blue", logged));
+            iter.add(new Bot(name, logged));
         }
         else
         {

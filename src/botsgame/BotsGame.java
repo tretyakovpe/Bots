@@ -12,7 +12,6 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -22,8 +21,8 @@ public class BotsGame extends BasicGame
 //    public Army armyBlue;
 //    public Army armyRed;
 
-    public Landscape land;
-    public Repair repairStation;
+    private Landscape land;
+    private Repair repairStation;
     public static List<Projectile> bullets;
 
     
@@ -48,7 +47,7 @@ public class BotsGame extends BasicGame
         bullets = new ArrayList();
         for(int i=0; i<ARMY_SIZE; i++)
         {
-            Bot.allBots.add(new Bot("Bot "+i, Color.blue, "blue", true));
+            Bot.allBots.add(new Bot("Bot "+i, true));
         }
     }
 
@@ -101,6 +100,7 @@ public class BotsGame extends BasicGame
         land.render(0,0,0);
         land.render(0,0,1);
         land.render(0,0,2);
+        land.render(0,0,3);
 //        land.render(g);
         drawBots(g);
 //        repairStation.draw(g);
