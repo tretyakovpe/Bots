@@ -29,7 +29,7 @@ import org.newdawn.slick.SlickException;
         public void volcano(){
             this.name = "Вулкан";
             this.speed = 10;
-            this.range = 128f;
+            this.range = 256f;
             this.damage = 5;
             this.bulletSpeed = 5;
             try {
@@ -42,7 +42,7 @@ import org.newdawn.slick.SlickException;
         public void missiles(){
             this.name = "Ракеты";
             this.speed = 1;
-            this.range = 256f;
+            this.range = 320f;
             this.damage = 30;
             this.bulletSpeed = 20;
             try {

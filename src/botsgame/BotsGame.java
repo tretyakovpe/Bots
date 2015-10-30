@@ -161,7 +161,7 @@ public class BotsGame extends BasicGame
             appgc.setAlwaysRender(true);
             appgc.setVSync(true); //включаем вертикальную синхронизацию
 //            appgc.setMaximumLogicUpdateInterval(TIMER);
-            appgc.setMinimumLogicUpdateInterval(TIMER);
+//            appgc.setMinimumLogicUpdateInterval(TIMER);
 
             appgc.start();
         }
