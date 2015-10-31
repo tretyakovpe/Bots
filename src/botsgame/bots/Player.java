@@ -5,17 +5,15 @@
  */
 package botsgame.bots;
 
-import org.newdawn.slick.Color;
-import org.newdawn.slick.SlickException;
-
 /**
  *
  * @author pavel.tretyakov
  */
 public class Player extends Bot {
 
-    public Player(String name, Color color, String flagColor) throws SlickException {
-        super(name, color, flagColor, true);
+    public Player(String name, boolean logged) {
+        super("Player", logged);
     }
-    
+
+   
 }

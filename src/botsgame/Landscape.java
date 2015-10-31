@@ -35,13 +35,12 @@ public class Landscape extends TiledMap implements TileBasedMap{
         }
     }
 
-    private final int obstacles;
     public List<Wall> walls;
     
-    public Landscape(String ref) throws SlickException {
+    public Landscape(String ref) throws SlickException 
+    {
         super(ref);
         this.walls = new ArrayList();
-        this.obstacles = 1;
     }
 
     public void findWalls(){
@@ -49,7 +48,7 @@ public class Landscape extends TiledMap implements TileBasedMap{
         {
             for(int x=0; x<WORLD_SIZE; x++)
             {
-                if(this.getTileId(x, y, 1)>0)
+                if(this.getTileId(x, y, 3)>0)
                 {
                     walls.add(new Wall(x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE, CELL_SIZE));
                 }
@@ -81,7 +80,7 @@ public class Landscape extends TiledMap implements TileBasedMap{
 
     @Override
     public boolean blocked(PathFindingContext pfc, int x, int y) {
-        return this.getTileId(x, y, obstacles) != 0;
+        return (this.getTileId(x, y, 1) == 0) || (this.getTileId(x, y, 3) != 0);
     }
 
     public void setObstacle(int x, int y){

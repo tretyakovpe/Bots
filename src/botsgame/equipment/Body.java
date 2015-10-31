@@ -5,10 +5,8 @@
  */
 package botsgame.equipment;
 
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.SpriteSheet;
 
 /**
  *
@@ -17,42 +15,37 @@ import org.newdawn.slick.SpriteSheet;
     public class Body extends Equipment{
 
         public float speed;
-        private SpriteSheet sheet;
-        public Image[] imageBody = new Image[4];
         
-        public void truck() throws SlickException{
+        public void truck(){
                 this.name = "Гусеницы";
                 this.durability = 120;
-                this.speed = 16f;
-                
-                sheet = new SpriteSheet("/assets/images/trucks.png",32,32); //спрайт игрока
-                for(int i=0; i<4; i++)
-                {
-                    imageBody[i]=sheet.getSprite(i,0);
-                }
-                this.image = this.imageBody[1];
-                
+                this.speed = 32f;
+            try {        
+                image = new Image("/assets/images/64x64/wheels.png");
+            } catch (SlickException ex) {
+                System.out.println("При загрузке картинки гусениц косяк");
+            }
         }
-        public void wheel() throws SlickException{
+
+        public void wheel(){
                 this.name = "Колеса";
                 this.durability = 70;
-                this.speed = 12f;
-                sheet = new SpriteSheet("/assets/images/wheels.png",32,32); //спрайт игрока
-                for(int i=0; i<4; i++)
-                {
-                    imageBody[i]=sheet.getSprite(i,0);
-                }
-                this.image = this.imageBody[1];
-        }
-        public void antigrav() throws SlickException{
+                this.speed = 32f;
+            try {
+                image = new Image("/assets/images/64x64/wheels.png");
+            } catch (SlickException ex) {
+                System.out.println("При загрузке картинки колес косяк");
+            }
+ }
+
+        public void antigrav(){
                 this.name = "Антигравы";
                 this.durability = 50;
-                this.speed = 6f;
-                sheet = new SpriteSheet("/assets/images/antigrav.png",32,32); //спрайт игрока
-                for(int i=0; i<4; i++)
-                {
-                    imageBody[i]=sheet.getSprite(i,0);
-                }
-                this.image = this.imageBody[1];
+                this.speed = 32f;
+            try {        
+                image = new Image("/assets/images/64x64/wheels.png");
+            } catch (SlickException ex) {
+                System.out.println("При загрузке картинки антигравов косяк");
+            }
         }
     }

@@ -1,21 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-up" width="25" height="25" tilewidth="32" tileheight="32" nextobjectid="3">
- <tileset firstgid="1" name="tileset_by_evolina-d36bih3" tilewidth="32" tileheight="32" tilecount="256">
-  <image source="../images/tileset_by_evolina-d36bih3.png" width="512" height="512"/>
- </tileset>
- <layer name="surface" width="25" height="25">
+<map version="1.0" orientation="staggered" renderorder="left-up" width="14" height="14" tilewidth="32" tileheight="32" staggeraxis="y" staggerindex="even" nextobjectid="1">
+ <layer name="Слой тайлов 1" width="14" height="14">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC72W2w3FIAxDYQRGYJTsv9T9qmT5xibQx0fUKhSfxKESo7U2Poj+YiBjLuIphut1VYOqo8pAHeVthVHpRc3Pecl7YjPYo6wGzlX8x9oVu8JAnUnvGKiJ80KeY2QeZ/pB+uy9+wez+jEf8LxyO4zVHPB89EPGiodezUMG185rONfdPnB2M+HjGs6hyhjt33fuBc8O+qR6DuAo75VPgzQUoxuGmkPmx6VTZfRDBvYUxFQM17vqI5J3xVhxHCPTV4yMw/sVI5tF9c7Ataq4w3CeuG/v3pnCaGHuB5YnULvECQAA
-  </data>
- </layer>
- <layer name="obstacle" width="25" height="25">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC7vCwMBwlYb4GhBvZKAt2DkAdiwC4qUE8AoK7QCxGYFYEUo7omGQ2Ekq2bEZiLdA8VY0fIkKdhwC4sNAfIUBezr5RAU7QGKPSTSHFDsOMpAe3qTa8YOB9LAg1Q5agFE7yLMDWzlCqNxQJdEOULpVRMLklBuE7LjIgFl2kFpuELLjIwNm+UGNvDIc09WoHYTtOEhjO0B5DFu+wIa34VCHSxwmB6pTAS8DwzrECQAA
-  </data>
- </layer>
- <layer name="decor" width="25" height="25">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGAWDHewdaAeMglFAQ8ACxKxAzEZlc8uQ2CJALArEYlS2Ax2o0th8SoAgELcMtCNGwSgYBVQFAH9AGa7ECQAA
+   H4sIAAAAAAAAC2NgGAWjYBTAAAATmsT7EAMAAA==
   </data>
  </layer>
 </map>
