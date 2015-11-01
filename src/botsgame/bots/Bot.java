@@ -219,7 +219,7 @@ public class Bot extends Obstacles implements Mover{
                 {
                     if(this.reloading == 0)
                     {
-                        shoot(enemyBot);
+                        shoot(enemyBot.posX,enemyBot.posY);
                     }
                     return;
                 }
@@ -309,12 +309,13 @@ public class Bot extends Obstacles implements Mover{
         return new PointF(dx, dy);
     }
 
-    protected void shoot(Bot target){
-        printLog(name+" стреляет в "+target.name);
-        
-        BotsGame.bullets.listIterator().add(new Projectile(this, posX, posY, target.posX, target.posY, this.weapon.bulletSpeed, weapon.damage));
-        
-        this.reloading = 100/this.weapon.speed;
+    protected void shoot(float x, float y){
+//        printLog(name+" стреляет в "+target.name);
+        if(reloading==0)
+        {
+            BotsGame.bullets.listIterator().add(new Projectile(this, posX, posY, x, y, this.weapon.bulletSpeed, weapon.damage));
+            this.reloading = 100/this.weapon.speed;
+        }
         botMode=1;
         this.targetDistance=99999;
     }

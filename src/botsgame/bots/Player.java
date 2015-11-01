@@ -15,5 +15,30 @@ public class Player extends Bot {
         super("Player", logged);
     }
 
+   public void moveUp()
+   {
+       this.posY--;
+   }
+   public void moveDown()
+   {
+       this.posY++;
+   }
+   public void moveLeft()
+   {
+       this.posX--;
+   }
+   public void moveRight()
+   {
+       this.posX++;
+   }
    
+    @Override
+   public void shoot(float x, float y)
+   {
+       super.shoot(x, y);
+   }
+
+    public void update() {
+        super.doReload();
+    }
 }

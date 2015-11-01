@@ -25,6 +25,7 @@ public class BotsGame extends BasicGame
 //    public Army armyRed;
 
     private BotFactory botFactory;
+    public Player player;
     private Landscape land;
     private Repair repairStation;
     public static List<Projectile> bullets;
@@ -64,10 +65,12 @@ public class BotsGame extends BasicGame
 
         bullets = new ArrayList();
         
-        for(int i=0; i<ARMY_SIZE; i++)
-        {
-            Bot.allBots.add(new Bot("Bot "+i, true));
-        }
+//        for(int i=0; i<ARMY_SIZE; i++)
+//        {
+//            Bot.allBots.add(new Bot("Bot "+i, true));
+//        }
+        
+        player = new Player("P",true);
     }
 
     @Override
@@ -93,21 +96,27 @@ public class BotsGame extends BasicGame
         }
         
         botFactory.update();
+        float X1 = Mouse.getX();
+        float Y1 = WINDOW_HEIGHT-Mouse.getY();
+        float X = player.posX;
+        float Y = player.posY;
         
+        player.targetDirection=(float)(180/Math.PI)*(float)Math.atan2((Y1-Y),(X1-X));
+        player.update();
         if (Mouse.isButtonDown(0)) {
-            
+            player.shoot(X1, Y1);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-        
+            player.moveUp();
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-        
+            player.moveDown();
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-        
+            player.moveLeft();
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-        
+            player.moveRight();
         }
 
         
@@ -123,6 +132,7 @@ public class BotsGame extends BasicGame
         land.render(0,0,3);
 //        land.render(g);
         drawBots(g);
+        player.drawBot(g);
 //        repairStation.draw(g);
         drawBullets(g);
     }
@@ -161,7 +171,7 @@ public class BotsGame extends BasicGame
             appgc.setAlwaysRender(true);
             appgc.setVSync(true); //включаем вертикальную синхронизацию
 //            appgc.setMaximumLogicUpdateInterval(TIMER);
-//            appgc.setMinimumLogicUpdateInterval(TIMER);
+            appgc.setMinimumLogicUpdateInterval(TIMER);
 
             appgc.start();
         }
