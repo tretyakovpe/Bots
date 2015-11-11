@@ -17,19 +17,19 @@ public class Player extends Bot {
 
    public void moveUp()
    {
-       this.posY--;
+       this.posY-=body.speed;
    }
    public void moveDown()
    {
-       this.posY++;
+       this.posY+=body.speed;
    }
    public void moveLeft()
    {
-       this.posX--;
+       this.posX-=body.speed;
    }
    public void moveRight()
    {
-       this.posX++;
+       this.posX+=body.speed;
    }
    
     @Override
